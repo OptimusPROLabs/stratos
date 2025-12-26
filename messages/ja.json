@@ -1,0 +1,91 @@
+{
+  "header": {
+    "home": "ホーム",
+    "about": "私たちについて",
+    "story": "ストーリー",
+    "getStarted": "始める"
+  },
+  "hero": {
+    "titleHighlight": "ピッチは準備完了",
+    "title": "ゲームが始まろうとしています",
+    "subtitle": "世界中のファン、プロフェッショナル、エージェントをつなぐ一流のフットボールコミュニティの動きに参加しましょう。",
+    "emailPlaceholder": "メールアドレスを入力してください",
+    "fan": "ファン",
+    "player": "選手",
+    "club": "クラブ",
+    "joinWaitlist": "ウェイトリストに参加"
+  },
+  
+  "newChapter": {
+    "title": "新しい章",
+    "titleSuffix": "サッカー史において//",
+    "paragraphWords": [
+      { "text": "サッカーファンが", "highlight": true },
+      { "text": "単なる", "highlight": false },
+      { "text": "観客ではなく", "highlight": false },
+      { "text": "利害関係者である", "highlight": true },
+      { "text": "世界を", "highlight": false },
+      { "text": "想像してください", "highlight": false },
+      { "text": "新星が", "highlight": true },
+      { "text": "輝く", "highlight": true },
+      { "text": "公平な", "highlight": false },
+      { "text": "チャンスを", "highlight": false },
+      { "text": "得る", "highlight": false },
+      { "text": "クラブは", "highlight": false },
+      { "text": "運に", "highlight": false },
+      { "text": "賭けるのではなく", "highlight": false },
+      { "text": "信頼と", "highlight": true },
+      { "text": "透明性を", "highlight": true },
+      { "text": "持って", "highlight": false },
+      { "text": "才能を", "highlight": true },
+      { "text": "発見します", "highlight": true },
+      { "text": "美しいゲームは", "highlight": true },
+      { "text": "勝ち負けだけでなく", "highlight": false },
+      { "text": "コミュニティ", "highlight": true },
+      { "text": "情熱", "highlight": true },
+      { "text": "共有された", "highlight": true },
+      { "text": "報酬についてです", "highlight": true },
+      { "text": "Stratosは", "highlight": true },
+      { "text": "このビジョンを", "highlight": false },
+      { "text": "現実にします", "highlight": false }
+    ]
+  },
+  "story": {
+    "title": "Stratosのストーリー",
+    "forPlayers": "選手のために",
+    "forPlayersDesc": "すべての選手は夢から始まります。ほこりっぽいピッチから深夜のトレーニングまで、見られることを望んでいます。あまりにも多くの場合、彼らの旅は早期に終わります。才能の欠如ではなく、機会の欠如からです。",
+    "forFans": "ファンのために",
+    "forFansDesc": "すべてのファンはその感覚を知っています。スタンドまたは画面から見ながら、拍手以上のことができることを望んでいます。叫んで、彼らのヒーローが立ち上がることを望んでいます。",
+    "forClubs": "クラブのために",
+    "forClubsDesc": "そしてすべてのクラブは、大きさに関係なく、次のスターを探しています。しかし、ノイズに満ちた世界では、本当のものをどのように見つけますか？",
+    "conclusion": "Stratosはこれらの世界をつなぎます。{highlight}",
+    "conclusionHighlight": "私たちは選手に輝く舞台を、ファンに未来を推進する力を、クラブに偉大さを発見する明確さを与えます。"
+  },
+  "countdown": {
+    "title": "待機はもうすぐ終わります！！！",
+    "days": "日",
+    "hours": "時間",
+    "minutes": "分",
+    "seconds": "秒",
+    "signUp": "更新情報に登録"
+  },
+  "footer": {
+    "title": "ゲームの先を行く",
+    "subtitle": "独占的な更新、早期アクセス、サッカーの未来に関するインサイダーニュースを入手してください。",
+    "getStarted": "始める",
+    "copyright": "著作権 © 2025 Stratos。全著作権所有。"
+  },
+  "waitlist": {
+    "title": "ウェイトリストに参加",
+    "description": "サッカーの未来を体験する最初の一人になりましょう。",
+    "firstName": "名",
+    "lastName": "姓",
+    "email": "メール",
+    "category": "私は...",
+    "fan": "ファン",
+    "player": "選手",
+    "club": "クラブ",
+    "submit": "ウェイトリストに参加",
+    "close": "閉じる"
+  }
+}
