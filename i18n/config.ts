@@ -18,4 +18,4 @@ export const localeNames: Record<Locale, string> = {
   // ar: "العربية",
   // zh: "中文",
   // ja: "日本語",
-}i
+};
