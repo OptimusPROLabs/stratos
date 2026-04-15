@@ -14,7 +14,7 @@ interface WaitlistModalProps {
   isOpen: boolean
   onClose: () => void
 }
-
+//change
 export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
   const t = useTranslations("waitlist")
   const [state, handleSubmit] = useForm("xblzaokr")
