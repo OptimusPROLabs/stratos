@@ -1,21 +1,15 @@
 "use client"
 
-import type React from "react"
-
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { X } from "lucide-react"
-import {useForm, ValidationError} from '@formspree/react'
+import { ArrowLeft } from "lucide-react"
+import { useForm, ValidationError } from '@formspree/react'
 import { useTranslations } from "next-intl"
+import Link from "next/link"
 
-interface WaitlistModalProps {
-  isOpen: boolean
-  onClose: () => void
-}
-
-export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
+export default function WaitlistPage() {
   const t = useTranslations("waitlist")
   const [state, handleSubmit] = useForm("xblzaokr")
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -23,18 +17,11 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
   useEffect(() => {
     if (state.succeeded) {
       setIsSubmitted(true)
-      const timer = setTimeout(() => {
-        onClose()
-        setIsSubmitted(false)
-      }, 2000)
-      return () => clearTimeout(timer)
     }
-  }, [state.succeeded, onClose])
-
-  if (!isOpen) return null
+  }, [state.succeeded])
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center relative">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
@@ -45,22 +32,23 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
         <div className="absolute inset-0 bg-gradient-to-b from-[#000000]/70 via-[#000000]/60 to-[#000000]/90" />
       </div>
 
-      {/* Close Button */}
-      <button 
-        onClick={onClose} 
-        className="absolute top-4 right-4 md:top-8 md:right-8 z-50 text-white/80 hover:text-white transition-colors"
+      {/* Back Button */}
+      <Link 
+        href="/" 
+        className="absolute top-4 left-4 md:top-8 md:left-8 z-50 text-white/80 hover:text-white transition-colors flex items-center gap-2"
       >
-        <X className="w-6 h-6 md:w-8 md:h-8" />
-      </button>
+        <ArrowLeft className="w-6 h-6 md:w-8 md:h-8" />
+        <span className="text-sm md:text-base">Back</span>
+      </Link>
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-lg">
+      <div className="relative z-10 w-full max-w-lg px-4">
         {!isSubmitted ? (
           <>
             <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 font-[family-name:var(--font-display)]">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 font-[family-name:var(--font-display)]">
                 {t("title")}
-              </h2>
+              </h1>
               <p className="text-white/70 text-base md:text-lg">{t("description")}</p>
             </div>
 
@@ -95,40 +83,6 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                 <ValidationError prefix="Email" field="email" errors={state.errors} />
               </div>
 
-              <div>
-                <Label className="text-white/90 mb-3 block text-sm md:text-base">{t("category")}</Label>
-                <div className="flex flex-wrap gap-3">
-                  <label className="flex items-center gap-2 text-white/90 cursor-pointer bg-white/10 border border-white/25 px-4 py-3 rounded-xl backdrop-blur-sm hover:bg-white/15 transition-colors">
-                    <input
-                      type="radio"
-                      name="category"
-                      value="fan"
-                      defaultChecked
-                      className="accent-[#B8FF56] w-4 h-4"
-                    />
-                    {t("fan")}
-                  </label>
-                  <label className="flex items-center gap-2 text-white/90 cursor-pointer bg-white/10 border border-white/25 px-4 py-3 rounded-xl backdrop-blur-sm hover:bg-white/15 transition-colors">
-                    <input
-                      type="radio"
-                      name="category"
-                      value="player"
-                      className="accent-[#B8FF56] w-4 h-4"
-                    />
-                    {t("player")}
-                  </label>
-                  <label className="flex items-center gap-2 text-white/90 cursor-pointer bg-white/10 border border-white/25 px-4 py-3 rounded-xl backdrop-blur-sm hover:bg-white/15 transition-colors">
-                    <input
-                      type="radio"
-                      name="category"
-                      value="club"
-                      className="accent-[#B8FF56] w-4 h-4"
-                    />
-                    {t("club")}
-                  </label>
-                </div>
-              </div>
-
               <Button
                 type="submit" 
                 disabled={state.submitting}
@@ -145,10 +99,15 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 font-[family-name:var(--font-display)]">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 font-[family-name:var(--font-display)]">
               Welcome to Stratos!
-            </h3>
-            <p className="text-white/70 text-base md:text-lg">You're on the list. We'll be in touch soon.</p>
+            </h1>
+            <p className="text-white/70 text-base md:text-lg mb-8">You're on the list. We'll be in touch soon.</p>
+            <Link href="/">
+              <Button className="bg-white/10 text-white hover:bg-white/20 h-12 px-8 rounded-3xl border border-white/25">
+                Go Back Home
+              </Button>
+            </Link>
           </div>
         )}
       </div>
