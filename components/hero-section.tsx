@@ -1,13 +1,10 @@
 "use client"
 
-import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import Link from "next/link"
 
 export function HeroSection() {
-  const [email, setEmail] = useState("")
   const t = useTranslations("hero")
 
   return (
@@ -33,24 +30,14 @@ export function HeroSection() {
          {t("subtitle")}
          </p>
 
-        {/* Waitlist Form */}
-        <div className="max-w-md mx-auto space-y-4 px-4">
-          <Input
-            type="email"
-            placeholder={t("emailPlaceholder")}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="bg-white/10 border-white/20 text-white placeholder:text-white/50 h-12"
-          />
-
-          <Link href="/waitlist">
-            <Button
-              className="w-full max-w-xs sm:max-w-md rounded-3xl bg-[#B8FF56] text-[#001220] hover:bg-[#B8FF56]/90 h-12 text-base font-semibold"
-            >
+        {/* Join Waitlist Button */}
+        <Link href="/waitlist">
+          <Button
+            className="w-full max-w-xs sm:max-w-md rounded-3xl bg-[#B8FF56] text-[#001220] hover:bg-[#B8FF56]/90 h-12 text-base font-semibold"
+          >
             {t("joinWaitlist")}
-            </Button>
-          </Link>
-        </div>
+          </Button>
+        </Link>
       </div>
     </section>
   )
