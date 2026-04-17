@@ -6,8 +6,11 @@ const baseUrl = process.env.NEON_AUTH_BASE_URL;
 const cookieSecret = process.env.NEON_AUTH_COOKIE_SECRET;
 const hasValidCookieSecret = Boolean(cookieSecret && cookieSecret.length >= MIN_COOKIE_SECRET_LENGTH);
 const hasBaseUrl = Boolean(baseUrl);
+const configuredAdminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase() || '';
 
 export const isNeonAuthConfigured = hasBaseUrl && hasValidCookieSecret;
+export const adminEmail = configuredAdminEmail;
+export const isAdminEmailConfigured = Boolean(configuredAdminEmail);
 
 export const neonAuthMissingEnv = [
   !hasBaseUrl ? 'NEON_AUTH_BASE_URL' : null,
@@ -15,7 +18,16 @@ export const neonAuthMissingEnv = [
   cookieSecret && !hasValidCookieSecret
     ? `NEON_AUTH_COOKIE_SECRET (must be at least ${MIN_COOKIE_SECRET_LENGTH} chars)`
     : null,
+  !isAdminEmailConfigured ? 'ADMIN_EMAIL' : null,
 ].filter((value): value is string => Boolean(value));
+
+export function isAdminEmail(email?: string | null) {
+  if (!isAdminEmailConfigured || !email) {
+    return false;
+  }
+
+  return email.trim().toLowerCase() === configuredAdminEmail;
+}
 
 export const auth = createNeonAuth({
   baseUrl: baseUrl || 'https://invalid.neon.auth.local',

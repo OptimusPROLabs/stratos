@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { AdminDashboard } from '@/app/admin/admin-dashboard';
 import { signOutAction } from '@/app/auth/actions';
-import { auth, isNeonAuthConfigured, neonAuthMissingEnv } from '@/lib/auth/server';
+import { auth, isAdminEmail, isNeonAuthConfigured, neonAuthMissingEnv } from '@/lib/auth/server';
 import { getWaitlistUsers } from '@/lib/db-neon';
 import { buildWaitlistAdminSnapshot } from '@/lib/waitlist-admin';
 
@@ -35,6 +35,10 @@ export default async function AdminPage() {
 
   if (!session?.user) {
     redirect('/auth/sign-in?next=/admin');
+  }
+
+  if (!isAdminEmail(session.user.email)) {
+    redirect('/auth/sign-in?error=This%20account%20is%20not%20authorized%20for%20admin%20access');
   }
 
   const users = await getWaitlistUsers();

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { auth, isNeonAuthConfigured } from '@/lib/auth/server';
+import { auth, isAdminEmail, isNeonAuthConfigured } from '@/lib/auth/server';
 import { getWaitlistUsers } from '@/lib/db-neon';
 import { buildWaitlistAdminSnapshot } from '@/lib/waitlist-admin';
 
@@ -26,6 +26,13 @@ export async function GET() {
     return NextResponse.json(
       { error: 'Unauthorized' },
       { status: 401 }
+    );
+  }
+
+  if (!isAdminEmail(session.user.email)) {
+    return NextResponse.json(
+      { error: 'Forbidden' },
+      { status: 403 }
     );
   }
 

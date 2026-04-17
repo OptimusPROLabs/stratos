@@ -57,7 +57,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const createdUser = await createWaitlistUser({ name, email });
+    const createdUser = await createWaitlistUser({
+      name,
+      email,
+      role,
+      questionText,
+      answer,
+      players,
+    });
     await updateWaitlistUserCore(createdUser.id, { name });
     await upsertWaitlistResponse(createdUser.id, { role, questionText, answer });
 

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { signInAction } from '@/app/auth/actions';
 import { neonAuthMissingEnv } from '@/lib/auth/server';
 
@@ -65,7 +64,7 @@ export default async function SignInPage({
         </form>
 
         <p className="text-center text-sm text-[#8899aa]">
-          Need an admin account? <Link href="/auth/sign-up" className="text-[#b8ff56] hover:underline">Create one</Link>
+          Admin access is restricted to the configured owner account.
         </p>
       </div>
     </main>

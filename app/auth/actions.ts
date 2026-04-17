@@ -1,7 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { auth, isNeonAuthConfigured } from '@/lib/auth/server';
+import { adminEmail, auth, isAdminEmail, isNeonAuthConfigured } from '@/lib/auth/server';
 
 function getString(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -23,25 +23,21 @@ export async function signInAction(formData: FormData) {
     redirect(`/auth/sign-in?error=${encodeURIComponent(error.message || 'Unable to sign in')}&next=${encodeURIComponent(next)}`);
   }
 
+  const { data: session } = await auth.getSession();
+  if (!isAdminEmail(session?.user?.email)) {
+    await auth.signOut();
+    redirect('/auth/sign-in?error=This%20account%20is%20not%20authorized%20for%20admin%20access');
+  }
+
   redirect(next);
 }
 
 export async function signUpAction(formData: FormData) {
-  if (!isNeonAuthConfigured) {
-    redirect('/auth/sign-up?error=Neon%20Auth%20is%20not%20configured');
-  }
-
-  const name = getString(formData, 'name');
-  const email = getString(formData, 'email');
-  const password = getString(formData, 'password');
-
-  const { error } = await auth.signUp.email({ name, email, password });
-
-  if (error) {
-    redirect(`/auth/sign-up?error=${encodeURIComponent(error.message || 'Unable to sign up')}`);
-  }
-
-  redirect('/admin');
+  void formData;
+  const error = adminEmail
+    ? `Admin sign-up is disabled. Ask the owner of ${adminEmail} to create the account directly in Neon Auth.`
+    : 'Admin sign-up is disabled. Configure ADMIN_EMAIL and create the admin account in Neon Auth.';
+  redirect(`/auth/sign-in?error=${encodeURIComponent(error)}`);
 }
 
 export async function signOutAction() {

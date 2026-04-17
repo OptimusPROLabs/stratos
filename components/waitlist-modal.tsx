@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { X } from "lucide-react"
-import {useForm, ValidationError} from '@formspree/react'
 import { useTranslations } from "next-intl"
 
 interface WaitlistModalProps {
@@ -17,19 +16,69 @@ interface WaitlistModalProps {
 //change
 export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
   const t = useTranslations("waitlist")
-  const [state, handleSubmit] = useForm("xblzaokr")
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    category: "fan",
+  })
   
   useEffect(() => {
-    if (state.succeeded) {
+    if (isSubmitted) {
       setIsSubmitted(true)
       const timer = setTimeout(() => {
         onClose()
         setIsSubmitted(false)
+        setErrorMessage(null)
       }, 2000)
       return () => clearTimeout(timer)
     }
-  }, [state.succeeded, onClose])
+  }, [isSubmitted, onClose])
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const submitWaitlist = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setIsSubmitting(true)
+    setErrorMessage(null)
+
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          role: formData.category,
+        }),
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        setErrorMessage(data.error || "Could not join waitlist. Please try again.")
+        return
+      }
+
+      setIsSubmitted(true)
+      setFormData({
+        name: "",
+        email: "",
+        category: "fan",
+      })
+    } catch (error) {
+      console.error("Error submitting waitlist modal:", error)
+      setErrorMessage("Could not join waitlist. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   if (!isOpen) return null
 
@@ -64,7 +113,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
               <p className="text-white/70 text-base md:text-lg">{t("description")}</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={submitWaitlist} className="space-y-5">
               <div>
                 <Label htmlFor="name" className="text-white/90 mb-2 block text-sm md:text-base">
                  {t("firstName")}
@@ -74,10 +123,11 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                   type="name"
                   name="name"
                   required
+                  value={formData.name}
+                  onChange={handleInputChange}
                   className="bg-white/10 border-white/25 text-white placeholder:text-white/50 h-12 md:h-14 rounded-xl backdrop-blur-sm"
                   placeholder="Enter your name"
                 />
-                <ValidationError prefix="Name" field="name" errors={state.errors} />
               </div>
 
               <div>
@@ -89,10 +139,11 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                   type="email"
                   name="email"
                   required
+                  value={formData.email}
+                  onChange={handleInputChange}
                   className="bg-white/10 border-white/25 text-white placeholder:text-white/50 h-12 md:h-14 rounded-xl backdrop-blur-sm"
                   placeholder="Enter your email"
                 />
-                <ValidationError prefix="Email" field="email" errors={state.errors} />
               </div>
 
               <div>
@@ -103,7 +154,8 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       type="radio"
                       name="category"
                       value="fan"
-                      defaultChecked
+                      checked={formData.category === "fan"}
+                      onChange={handleInputChange}
                       className="accent-[#B8FF56] w-4 h-4"
                     />
                     {t("fan")}
@@ -113,6 +165,8 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       type="radio"
                       name="category"
                       value="player"
+                      checked={formData.category === "player"}
+                      onChange={handleInputChange}
                       className="accent-[#B8FF56] w-4 h-4"
                     />
                     {t("player")}
@@ -122,6 +176,8 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       type="radio"
                       name="category"
                       value="club"
+                      checked={formData.category === "club"}
+                      onChange={handleInputChange}
                       className="accent-[#B8FF56] w-4 h-4"
                     />
                     {t("club")}
@@ -131,11 +187,17 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
 
               <Button
                 type="submit" 
-                disabled={state.submitting}
+                disabled={isSubmitting}
                 className="w-full bg-[#B8FF56] text-[#001220] hover:bg-[#B8FF56]/90 h-12 md:h-14 text-base md:text-lg rounded-3xl font-semibold mt-4"
               >
-                {state.submitting ? "Submitting..." : t("submit")}
+                {isSubmitting ? "Submitting..." : t("submit")}
               </Button>
+
+              {errorMessage && (
+                <div className="rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                  {errorMessage}
+                </div>
+              )}
             </form>
           </>
         ) : (

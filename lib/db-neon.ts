@@ -294,6 +294,10 @@ export async function initDatabase() {
 export async function createWaitlistUser(userData: {
   name: string;
   email: string;
+  role?: string;
+  questionText?: string | null;
+  answer?: string | null;
+  players?: ClubPlayer[];
 }): Promise<WaitlistUserRow> {
   if (!sql) {
     throw new Error('No database connection');
@@ -302,9 +306,26 @@ export async function createWaitlistUser(userData: {
   await initDatabase();
 
   try {
+    const legacyPlayers =
+      userData.players && userData.players.length
+        ? JSON.stringify(
+            userData.players.map((player) => ({
+              name: player.name?.trim() || '',
+              email: player.email?.trim() || null,
+            }))
+          )
+        : null;
+
     const users = await sql`
-      INSERT INTO waitlist_users (name, email)
-      VALUES (${userData.name}, ${userData.email})
+      INSERT INTO waitlist_users (name, email, role, question_text, answer, players)
+      VALUES (
+        ${userData.name},
+        ${userData.email},
+        ${userData.role || null},
+        ${userData.questionText || null},
+        ${userData.answer || null},
+        ${legacyPlayers}::jsonb
+      )
       RETURNING *
     `;
 
