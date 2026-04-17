@@ -23,10 +23,9 @@ export async function signInAction(formData: FormData) {
   }
 
   if (!otp) {
-    const { error } = await auth.emailOtp.sendVerificationOtp({
-      email,
-      type: 'sign-in',
-    });
+    // Neon Auth expects sign-in OTP initiation via signIn.emailOtp.
+    // Calling emailOtp.sendVerificationOtp in this flow may require an authenticated JWT.
+    const { error } = await auth.signIn.emailOtp({ email });
 
     if (error) {
       redirect(`/auth/sign-in?error=${encodeURIComponent(error.message || 'Unable to send one-time code')}&next=${encodeURIComponent(next)}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`);
