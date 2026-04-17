@@ -1,5 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { addWaitlistUser, getWaitlistUsers, getUserByEmail, initDatabase, updateWaitlistUser } from '@/lib/db-neon';
+import {
+  createWaitlistUser,
+  getUserByEmail,
+  getWaitlistUsers,
+  initDatabase,
+  replaceClubPlayers,
+  updateWaitlistUserCore,
+  upsertWaitlistResponse,
+} from '@/lib/db-neon';
 
 // Initialize database on module load
 let dbInitialized = false;
@@ -9,13 +17,13 @@ function normalizeUser(user: any) {
     id: user.id,
     name: user.name,
     email: user.email,
-    role: user.role,
-    questionText: user.questionText || user.question_text,
-    answer: user.answer,
+    role: user.response?.role || null,
+    questionText: user.response?.questionText || null,
+    answer: user.response?.answer || null,
     players: user.players,
-    waitlistNumber: user.waitlistNumber || user.waitlist_number,
-    createdAt: user.createdAt || user.created_at,
-    updatedAt: user.updatedAt || user.updated_at,
+    waitlistNumber: user.waitlistNumber,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
   };
 }
 
@@ -49,14 +57,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = await addWaitlistUser({
-      name,
-      email,
-      role,
-      questionText,
-      answer,
-      players,
-    });
+    const createdUser = await createWaitlistUser({ name, email });
+    await updateWaitlistUserCore(createdUser.id, { name });
+    await upsertWaitlistResponse(createdUser.id, { role, questionText, answer });
+
+    if (role === 'club' && Array.isArray(players)) {
+      await replaceClubPlayers(createdUser.id, players);
+    }
+
+    const user = await getUserByEmail(email);
     const normalizedUser = normalizeUser(user);
 
     return NextResponse.json(
@@ -129,7 +138,15 @@ export async function PUT(request: NextRequest) {
       );
     }
     
-    const updated = await updateWaitlistUser(email, { role, questionText, answer, players });
+    if (role) {
+      await upsertWaitlistResponse(existingUser.id, { role, questionText, answer });
+    }
+
+    if (Array.isArray(players)) {
+      await replaceClubPlayers(existingUser.id, players);
+    }
+
+    const updated = await getUserByEmail(email);
     const normalizedUser = normalizeUser(updated);
     
     return NextResponse.json(

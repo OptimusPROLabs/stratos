@@ -1,113 +1,74 @@
-"use client"
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { AdminDashboard } from '@/app/admin/admin-dashboard';
+import { signOutAction } from '@/app/auth/actions';
+import { auth, isNeonAuthConfigured, neonAuthMissingEnv } from '@/lib/auth/server';
+import { getWaitlistUsers } from '@/lib/db-neon';
+import { buildWaitlistAdminSnapshot } from '@/lib/waitlist-admin';
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
+export const dynamic = 'force-dynamic';
 
-interface WaitlistUser {
-  id: string
-  name: string
-  email: string
-  role: string
-  questionText?: string
-  answer?: string
-  players?: Array<{ name: string; email: string }>
-  waitlistNumber: number
-  createdAt: string
-  updatedAt?: string
-}
-
-export default function AdminPage() {
-  const [users, setUsers] = useState<WaitlistUser[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await fetch('/api/waitlist')
-        if (res.ok) {
-          const data = await res.json()
-          setUsers(data.users || [])
-        }
-      } catch (e) {
-        console.error(e)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchUsers()
-  }, [])
-
-  return (
-    <div className="min-h-screen bg-[#000000] text-white p-6 md:p-12">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">Waitlist Admin</h1>
-            <p className="text-[#8899aa]">Total users: {users.length}</p>
+export default async function AdminPage() {
+  if (!isNeonAuthConfigured) {
+    return (
+      <main className="min-h-screen bg-black text-white p-6 md:p-12">
+        <div className="max-w-3xl mx-auto border border-[#1a2332] bg-[#0a0f14] p-8 space-y-4">
+          <h1 className="text-3xl font-bold">Admin Setup Required</h1>
+          <p className="text-[#8899aa]">
+            Neon Auth is required before the live admin can be used.
+          </p>
+          <div className="border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-200">
+            Missing env: {neonAuthMissingEnv.join(', ')}
           </div>
-          <Link 
-            href="/"
-            className="px-4 py-2 border border-[#1a2332] hover:border-[#b8ff56] rounded transition-colors"
-          >
+          <p className="text-sm text-[#8899aa]">
+            Add these variables in Neon and Vercel, then reload this page.
+          </p>
+          <Link href="/" className="inline-flex border border-[#1a2332] px-4 py-2 hover:border-[#b8ff56] transition-colors">
             Back to Home
           </Link>
         </div>
+      </main>
+    );
+  }
 
-        {loading ? (
-          <div className="text-center py-12 text-[#8899aa]">
-            Loading...
-          </div>
-        ) : (
-          <div className="overflow-x-auto border border-[#1a2332] rounded">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-[#1a2332]">
-                  <th className="text-left p-4 text-sm font-medium text-[#8899aa]">#</th>
-                  <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Name</th>
-                  <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Email</th>
-                  <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Role</th>
-                  <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Question</th>
-                  <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Answer</th>
-                  <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Players</th>
-                  <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Date</th>
-                  <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Spot</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user, index) => (
-                  <tr key={user.id} className="border-b border-[#1a2332]/50 hover:bg-[#0a0f14]">
-                    <td className="p-4 text-[#8899aa]">{index + 1}</td>
-                    <td className="p-4 font-medium">{user.name}</td>
-                    <td className="p-4 text-[#8899aa]">{user.email}</td>
-                    <td className="p-4">
-                      <span className="px-2 py-1 bg-[#b8ff56]/10 text-[#b8ff56] text-xs rounded border border-[#b8ff56]/20">
-                        {user.role}
-                      </span>
-                    </td>
-                    <td className="p-4 text-[#8899aa] text-sm">{user.questionText || "—"}</td>
-                    <td className="p-4 text-[#8899aa] text-sm">{user.answer || "—"}</td>
-                    <td className="p-4 text-[#8899aa] text-sm">
-                      {user.players?.length ? `${user.players.length} player${user.players.length > 1 ? "s" : ""}` : "—"}
-                    </td>
-                    <td className="p-4 text-[#8899aa]">
-                      {new Date(user.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="p-4">
-                      <span className="font-mono text-[#b8ff56]">#{user.waitlistNumber.toString().padStart(4, '0')}</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+  const { data: session } = await auth.getSession();
 
-        {!loading && users.length === 0 && (
-          <div className="text-center py-12 text-[#8899aa]">
-            No users yet.
+  if (!session?.user) {
+    redirect('/auth/sign-in?next=/admin');
+  }
+
+  const users = await getWaitlistUsers();
+  const snapshot = buildWaitlistAdminSnapshot(users);
+  const userName = session.user.name || session.user.email || 'Admin';
+
+  return (
+    <main className="min-h-screen bg-black text-white p-6 md:p-12">
+      <div className="max-w-7xl mx-auto space-y-8">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">Waitlist Admin</h1>
+            <p className="text-[#8899aa]">
+              Signed in as {userName}
+            </p>
           </div>
-        )}
+
+          <div className="flex items-center gap-3">
+            <Link href="/" className="border border-[#1a2332] px-4 py-2 hover:border-[#b8ff56] transition-colors">
+              Back to Home
+            </Link>
+            <form action={signOutAction}>
+              <button
+                type="submit"
+                className="border border-[#1a2332] px-4 py-2 hover:border-red-400 hover:text-red-300 transition-colors"
+              >
+                Sign Out
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <AdminDashboard initialData={snapshot} />
       </div>
-    </div>
-  )
+    </main>
+  );
 }
