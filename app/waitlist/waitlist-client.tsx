@@ -322,13 +322,15 @@ export default function WaitlistClient() {
               </h1>
             </div>
 
-            {/* Headline - FULLY RESPONSIVE */}
+            {/* Headline - FULLY RESPONSIVE, Cleaner on Large Screens */}
             <div className="mb-6 sm:mb-10 md:mb-14 animate-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: '0.3s' }}>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black leading-[1.15] tracking-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.2] tracking-tight">
                 The Platform Built For The Ones
                 <br className="hidden sm:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#b8ff56] to-[#008efa]">
-                  The World Hasn't Discovered Yet.
+                  The World
+                  <br className="hidden sm:block" />
+                  Hasn't Discovered Yet.
                 </span>
               </h2>
             </div>

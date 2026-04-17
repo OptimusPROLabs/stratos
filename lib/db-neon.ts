@@ -11,11 +11,22 @@ export interface WaitlistUser {
   created_at: string;
 }
 
-// Initialize Neon client
-const sql = neon(process.env.DATABASE_URL!);
+// Initialize Neon client - check for both common env var names
+const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_PRISMA_URL || process.env.POSTGRES_URL;
+
+if (!databaseUrl) {
+  console.warn('⚠️ No DATABASE_URL found');
+}
+
+const sql = databaseUrl ? neon(databaseUrl) : null;
 
 // Create table if it doesn't exist
 export async function initDatabase() {
+  if (!sql) {
+    console.warn('⚠️ No SQL client available');
+    return;
+  }
+  
   try {
     await sql`
       CREATE TABLE IF NOT EXISTS waitlist_users (
@@ -37,6 +48,10 @@ export async function initDatabase() {
 
 // Get all users
 export async function getWaitlistUsers(): Promise<WaitlistUser[]> {
+  if (!sql) {
+    return [];
+  }
+  
   await initDatabase();
   const users = await sql`
     SELECT * FROM waitlist_users ORDER BY created_at DESC
@@ -52,6 +67,10 @@ export async function addWaitlistUser(userData: {
   answer?: string;
   players?: any;
 }): Promise<WaitlistUser> {
+  if (!sql) {
+    throw new Error('No database connection');
+  }
+  
   await initDatabase();
   
   try {
@@ -74,6 +93,10 @@ export async function addWaitlistUser(userData: {
 
 // Get user by email
 export async function getUserByEmail(email: string): Promise<WaitlistUser | null> {
+  if (!sql) {
+    return null;
+  }
+  
   await initDatabase();
   const users = await sql`
     SELECT * FROM waitlist_users WHERE email = ${email}
@@ -83,9 +106,17 @@ export async function getUserByEmail(email: string): Promise<WaitlistUser | null
 
 // Get next waitlist number (for local fallback)
 export async function getWaitlistNumber(): Promise<number> {
+  if (!sql) {
+    return 1;
+  }
+  
   await initDatabase();
   const result = await sql`
     SELECT COALESCE(MAX(waitlist_number), 0) + 1 as next_number FROM waitlist_users
   `;
   return (result[0] as any).next_number;
+}
+
+export function isDbAvailable(): boolean {
+  return !!sql;
 }

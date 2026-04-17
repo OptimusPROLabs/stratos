@@ -1,13 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-// Try Neon first, fall back to local JSON
-let dbModule: any;
+
+// Try Neon first, with proper fallback to local JSON
+let useNeon = true;
+let dbNeon: any;
+let dbJson: any;
+
 try {
-  dbModule = require('@/lib/db-neon');
+  dbNeon = require('@/lib/db-neon');
+  if (!dbNeon.isDbAvailable || !dbNeon.isDbAvailable()) {
+    useNeon = false;
+  }
 } catch (e) {
-  dbModule = require('@/lib/db');
+  useNeon = false;
 }
 
-const { addWaitlistUser, getWaitlistUsers, getUserByEmail } = dbModule;
+try {
+  dbJson = require('@/lib/db');
+} catch (e) {
+  console.error('Error loading JSON DB:', e);
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,7 +32,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const existingUser = await getUserByEmail(email);
+    let dbModule = useNeon && dbNeon ? dbNeon : dbJson;
+    let user: any;
+    let existingUser: any;
+    let waitlistNumber: number;
+
+    try {
+      existingUser = await dbModule.getUserByEmail(email);
+    } catch (neonError) {
+      // If Neon fails, try JSON
+      console.warn('Neon failed, falling back to JSON');
+      dbModule = dbJson;
+      existingUser = await dbModule.getUserByEmail(email);
+    }
+
     if (existingUser) {
       const existingWaitlistNumber = (existingUser as any).waitlistNumber || (existingUser as any).waitlist_number;
       return NextResponse.json(
@@ -33,15 +57,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = await addWaitlistUser({
-      name,
-      email,
-      role,
-      answer,
-      players,
-    });
+    try {
+      user = await dbModule.addWaitlistUser({
+        name,
+        email,
+        role,
+        answer,
+        players,
+      });
+    } catch (addError) {
+      console.warn('Add user failed, falling back to JSON');
+      dbModule = dbJson;
+      user = await dbModule.addWaitlistUser({
+        name,
+        email,
+        role,
+        answer,
+        players,
+      });
+    }
 
-    const waitlistNumber = (user as any).waitlistNumber || (user as any).waitlist_number;
+    waitlistNumber = (user as any).waitlistNumber || (user as any).waitlist_number;
 
     return NextResponse.json(
       {
@@ -54,7 +90,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Waitlist API error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     );
   }
@@ -62,7 +98,17 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    const users = await getWaitlistUsers();
+    let dbModule = useNeon && dbNeon ? dbNeon : dbJson;
+    let users: any[];
+    
+    try {
+      users = await dbModule.getWaitlistUsers();
+    } catch (neonError) {
+      console.warn('Neon GET failed, falling back to JSON');
+      dbModule = dbJson;
+      users = await dbModule.getWaitlistUsers();
+    }
+    
     // Normalize the fields for the admin dashboard (support both snake_case and camelCase)
     const normalizedUsers = users.map((u: any) => ({
       id: u.id,
@@ -78,7 +124,7 @@ export async function GET() {
   } catch (error) {
     console.error('Waitlist GET API error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     );
   }
