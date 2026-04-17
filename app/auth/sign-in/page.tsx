@@ -6,10 +6,12 @@ export const dynamic = 'force-dynamic';
 export default async function SignInPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; next?: string }>;
+  searchParams: Promise<{ error?: string; message?: string; next?: string; email?: string; name?: string }>;
 }) {
   const params = await searchParams;
   const next = params.next || '/admin';
+  const defaultEmail = params.email || '';
+  const defaultName = params.name || '';
 
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center px-4 py-10">
@@ -31,8 +33,25 @@ export default async function SignInPage({
           </div>
         )}
 
+        {params.message && (
+          <div className="border border-[#b8ff56]/40 bg-[#b8ff56]/10 p-4 text-sm text-[#d8ffb2]">
+            {params.message}
+          </div>
+        )}
+
         <form action={signInAction} className="space-y-4">
           <input type="hidden" name="next" value={next} />
+          <div className="space-y-2">
+            <label htmlFor="name" className="text-sm text-[#c5d0db]">Name</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              defaultValue={defaultName}
+              className="w-full bg-black border border-[#1a2332] px-4 py-3 outline-none focus:border-[#b8ff56]"
+            />
+          </div>
+
           <div className="space-y-2">
             <label htmlFor="email" className="text-sm text-[#c5d0db]">Email</label>
             <input
@@ -40,17 +59,19 @@ export default async function SignInPage({
               name="email"
               type="email"
               required
+              defaultValue={defaultEmail}
               className="w-full bg-black border border-[#1a2332] px-4 py-3 outline-none focus:border-[#b8ff56]"
             />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="password" className="text-sm text-[#c5d0db]">Password</label>
+            <label htmlFor="otp" className="text-sm text-[#c5d0db]">One-time code (OTP)</label>
             <input
-              id="password"
-              name="password"
-              type="password"
-              required
+              id="otp"
+              name="otp"
+              type="text"
+              inputMode="numeric"
+              placeholder="Leave empty to send code"
               className="w-full bg-black border border-[#1a2332] px-4 py-3 outline-none focus:border-[#b8ff56]"
             />
           </div>
@@ -59,7 +80,7 @@ export default async function SignInPage({
             type="submit"
             className="w-full bg-[#b8ff56] text-[#001220] font-bold px-4 py-3 hover:bg-[#b8ff56]/90 transition-colors"
           >
-            Sign In
+            {params.message ? 'Verify and Sign In' : 'Send Login Code'}
           </button>
         </form>
 

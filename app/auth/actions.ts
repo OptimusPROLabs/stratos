@@ -13,14 +13,31 @@ export async function signInAction(formData: FormData) {
     redirect('/auth/sign-in?error=Neon%20Auth%20is%20not%20configured');
   }
 
+  const name = getString(formData, 'name');
   const email = getString(formData, 'email');
-  const password = getString(formData, 'password');
+  const otp = getString(formData, 'otp');
   const next = getString(formData, 'next') || '/admin';
 
-  const { error } = await auth.signIn.email({ email, password });
+  if (!email) {
+    redirect(`/auth/sign-in?error=${encodeURIComponent('Email is required')}&next=${encodeURIComponent(next)}`);
+  }
 
+  if (!otp) {
+    const { error } = await auth.emailOtp.sendVerificationOtp({
+      email,
+      type: 'sign-in',
+    });
+
+    if (error) {
+      redirect(`/auth/sign-in?error=${encodeURIComponent(error.message || 'Unable to send one-time code')}&next=${encodeURIComponent(next)}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`);
+    }
+
+    redirect(`/auth/sign-in?message=${encodeURIComponent('One-time code sent. Check your email.')}&next=${encodeURIComponent(next)}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`);
+  }
+
+  const { error } = await auth.signIn.emailOtp({ email, otp });
   if (error) {
-    redirect(`/auth/sign-in?error=${encodeURIComponent(error.message || 'Unable to sign in')}&next=${encodeURIComponent(next)}`);
+    redirect(`/auth/sign-in?error=${encodeURIComponent(error.message || 'Invalid one-time code')}&next=${encodeURIComponent(next)}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`);
   }
 
   const { data: session } = await auth.getSession();
