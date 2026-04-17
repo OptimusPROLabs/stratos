@@ -192,7 +192,8 @@ export default function WaitlistClient() {
   const [email, setEmail] = useState("")
   const [name, setName] = useState("")
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
-  const [waitlistNumber, setWaitlistNumber] = useState(Math.floor(Math.random() * 500) + 1)
+  const [waitlistNumber, setWaitlistNumber] = useState(0)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [showCountrySearch, setShowCountrySearch] = useState(false)
   const [countrySearch, setCountrySearch] = useState("")
   const [players, setPlayers] = useState<Player[]>([{ id: 1, name: "", email: "" }])
@@ -243,7 +244,53 @@ export default function WaitlistClient() {
     setPlayers(players.map(p => 
       p.id === id ? { ...p, [field]: value } : p
     ))
-  }
+  };
+
+  const submitWaitlist = async () => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          role: selectedRole,
+          answer: selectedAnswer,
+          players: selectedRole === 'club' 
+            ? players.filter(p => p.name || p.email).map(p => ({ name: p.name, email: p.email }))
+            : undefined,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (response.status === 409 && data.waitlistNumber) {
+          setWaitlistNumber(data.waitlistNumber);
+        } else {
+          alert(data.error || 'Something went wrong');
+        }
+      } else {
+        setWaitlistNumber(data.waitlistNumber);
+      }
+
+      if (step === 3 && selectedRole === 'club') {
+        setStep(4);
+      } else if (step === 4 && selectedRole === 'club') {
+        setStep(5);
+      } else {
+        setStep(step + 1 as Step);
+      }
+    } catch (error) {
+      console.error('Error submitting waitlist:', error);
+      alert('Error submitting. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#000000] text-white overflow-hidden relative selection:bg-[#b8ff56] selection:text-[#001220]">
@@ -451,11 +498,11 @@ export default function WaitlistClient() {
 
               <div className="text-center pt-2 sm:pt-4">
                 <Button
-                  onClick={handleNext}
-                  disabled={!email}
+                  onClick={submitWaitlist}
+                  disabled={!email || !name || isSubmitting}
                   className="bg-[#b8ff56] text-[#001220] hover:bg-[#b8ff56]/90 disabled:opacity-50 disabled:cursor-not-allowed px-8 sm:px-10 py-4 sm:py-5 text-sm sm:text-base font-bold rounded-none w-full sm:w-auto"
                 >
-                  CLAIM MY SPOT
+                  {isSubmitting ? 'SUBMITTING...' : 'CLAIM MY SPOT'}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </div>
@@ -479,8 +526,9 @@ export default function WaitlistClient() {
                       key={index}
                       onClick={() => {
                         setSelectedAnswer(option)
-                        handleNext()
+                        submitWaitlist()
                       }}
+                      disabled={isSubmitting}
                       className={`w-full text-left p-3 sm:p-4 md:p-6 border-2 transition-all duration-200 ${
                         selectedAnswer === option
                           ? 'border-[#b8ff56] bg-[#0d1a0d] text-white'
@@ -536,8 +584,9 @@ export default function WaitlistClient() {
                                 key={index}
                                 onClick={() => {
                                   setSelectedAnswer(country)
-                                  handleNext()
+                                  submitWaitlist()
                                 }}
+                                disabled={isSubmitting}
                                 className="w-full text-left p-3 hover:bg-[#b8ff56]/10 transition-colors border-b border-[#1a2332]/50 last:border-0"
                               >
                                 <span className="text-[#8899aa] hover:text-white text-sm sm:text-base">
@@ -562,8 +611,9 @@ export default function WaitlistClient() {
                       key={index}
                       onClick={() => {
                         setSelectedAnswer(option)
-                        handleNext()
+                        submitWaitlist()
                       }}
+                      disabled={isSubmitting}
                       className={`w-full text-left p-3 sm:p-4 md:p-6 border-2 transition-all duration-200 ${
                         selectedAnswer === option
                           ? 'border-[#b8ff56] bg-[#0d1a0d] text-white'
@@ -580,7 +630,8 @@ export default function WaitlistClient() {
 
               <div className="mt-6 sm:mt-10 text-center">
                 <button
-                  onClick={handleNext}
+                  onClick={submitWaitlist}
+                  disabled={isSubmitting}
                   className="text-[#8899aa] hover:text-white transition-colors text-sm sm:text-base"
                 >
                   Skip for now →
@@ -653,10 +704,11 @@ export default function WaitlistClient() {
                 </button>
                 
                 <Button
-                  onClick={handleNext}
-                  className="bg-[#b8ff56] text-[#001220] hover:bg-[#b8ff56]/90 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-bold rounded-none w-full sm:w-auto order-1 sm:order-2"
+                  onClick={submitWaitlist}
+                  disabled={isSubmitting}
+                  className="bg-[#b8ff56] text-[#001220] hover:bg-[#b8ff56]/90 disabled:opacity-50 disabled:cursor-not-allowed px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-bold rounded-none w-full sm:w-auto order-1 sm:order-2"
                 >
-                  CONTINUE
+                  {isSubmitting ? 'SUBMITTING...' : 'CONTINUE'}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </div>

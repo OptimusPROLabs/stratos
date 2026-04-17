@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Twitter, Linkedin, Instagram, Copy, Check, Download } from "lucide-react"
+import { Twitter, Linkedin, Instagram, Copy, Check, Download, Share2 } from "lucide-react"
 import Link from "next/link"
 import { toPng } from "html-to-image"
 
@@ -140,18 +140,40 @@ export function StratosPlayerCard({ waitlistNumber, selectedRole, name, roles = 
     return () => clearInterval(interval);
   }, []);
 
-  const shareText = `Just claimed my STRATOS Football GENESIS Member spot! ✨ #${waitlistNumber.toString().padStart(4, '0')} 🏆⚽\n\nThe platform built for the ones the world hasn't discovered yet. Join the movement!`;
+  const shareText = `Just claimed my STRATOS Football GENESIS Member spot! ✨ #${waitlistNumber.toString().padStart(4, '0')} 🏆⚽`;
+  const shareDescription = `The platform built for the ones the world hasn't discovered yet. Join the movement!`;
   const shareUrl = window.location.href;
 
   const shareToTwitter = () => {
     const hashtags = 'StratosFootball,Football,Genesis,Soccer,GlobalSouth,PlayerDevelopment';
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}&hashtags=${hashtags}`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText + '\n\n' + shareDescription)}&url=${encodeURIComponent(shareUrl)}&hashtags=${hashtags}`;
     window.open(url, '_blank', 'width=600,height=400');
   };
 
   const shareToLinkedIn = () => {
     const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
     window.open(url, '_blank', 'width=600,height=400');
+  };
+
+  const shareToTelegram = () => {
+    const url = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText + '\n\n' + shareDescription)}`;
+    window.open(url, '_blank', 'width=600,height=400');
+  };
+
+  const nativeShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Stratos Football — Member Spot',
+          text: shareText + '\n\n' + shareDescription,
+          url: shareUrl,
+        });
+      } else {
+        alert('Native sharing not available. Use the other share buttons!');
+      }
+    } catch (error) {
+      console.log('Share cancelled', error);
+    }
   };
 
   const cardRef = useRef<HTMLDivElement>(null);
@@ -361,12 +383,12 @@ export function StratosPlayerCard({ waitlistNumber, selectedRole, name, roles = 
                 <div className="h-px w-12" style={{ background: "linear-gradient(90deg, rgba(163,230,53,0.3), transparent)" }} />
               </div>
 
-              {/* Stats row */}
+              {/* Date row */}
               <div className="flex gap-5 mb-8 w-full justify-center">
                 {[
-                  { label: "Season", value: "2025" },
-                  { label: "Rank", value: "S1" },
-                  { label: "XP", value: "∞" },
+                  { label: "Date", value: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) },
+                  { label: "Status", value: "Active" },
+                  { label: "Spot", value: `#${waitlistNumber.toString().padStart(4, '0')}` },
                 ].map((s) => (
                   <div key={s.label} className="flex flex-col items-center gap-0.5">
                     <span
@@ -446,48 +468,58 @@ export function StratosPlayerCard({ waitlistNumber, selectedRole, name, roles = 
             </p>
           </div>
           
-          <div className="flex gap-2 justify-center mb-4">
+          <div className="flex flex-wrap gap-2 justify-center mb-4">
             {/* Save Image */}
             <button
               onClick={saveAsImage}
-              className="flex items-center justify-center w-12 h-12 bg-[#b8ff56] hover:bg-[#a3e635] rounded-lg transition-colors"
+              className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-[#b8ff56] hover:bg-[#a3e635] rounded-lg transition-colors"
             >
-              <Download className="w-5 h-5 text-[#001220]" />
+              <Download className="w-4 h-4 sm:w-5 sm:h-5 text-[#001220]" />
             </button>
 
             {/* Twitter */}
             <button
               onClick={shareToTwitter}
-              className="flex items-center justify-center w-12 h-12 bg-[#1DA1F2] hover:bg-[#1a8cd8] rounded-lg transition-colors"
+              className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-[#1DA1F2] hover:bg-[#1a8cd8] rounded-lg transition-colors"
             >
-              <Twitter className="w-5 h-5 text-white" />
+              <Twitter className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+            </button>
+
+            {/* Telegram */}
+            <button
+              onClick={shareToTelegram}
+              className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-[#0088cc] hover:bg-[#0077b5] rounded-lg transition-colors"
+            >
+              <svg viewBox="0 0 24 24" className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor">
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+              </svg>
             </button>
 
             {/* LinkedIn */}
             <button
               onClick={shareToLinkedIn}
-              className="flex items-center justify-center w-12 h-12 bg-[#0077b5] hover:bg-[#006698] rounded-lg transition-colors"
+              className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-[#0077b5] hover:bg-[#006698] rounded-lg transition-colors"
             >
-              <Linkedin className="w-5 h-5 text-white" />
+              <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </button>
 
             {/* Instagram */}
             <button
               onClick={shareToInstagram}
-              className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 hover:opacity-90 rounded-lg transition-opacity"
+              className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 hover:opacity-90 rounded-lg transition-opacity"
             >
-              <Instagram className="w-5 h-5 text-white" />
+              <Instagram className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </button>
 
             {/* Copy Link */}
             <button
               onClick={copyLink}
-              className="flex items-center justify-center w-12 h-12 bg-[#1a2332] hover:bg-[#232f42] rounded-lg transition-colors"
+              className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-[#1a2332] hover:bg-[#232f42] rounded-lg transition-colors"
             >
               {copied ? (
-                <Check className="w-5 h-5 text-[#b8ff56]" />
+                <Check className="w-4 h-4 sm:w-5 sm:h-5 text-[#b8ff56]" />
               ) : (
-                <Copy className="w-5 h-5 text-white" />
+                <Copy className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               )}
             </button>
           </div>
