@@ -198,6 +198,7 @@ export default function WaitlistClient() {
   const [showCountrySearch, setShowCountrySearch] = useState(false)
   const [countrySearch, setCountrySearch] = useState("")
   const [players, setPlayers] = useState<Player[]>([{ id: 1, name: "", email: "" }])
+  const [hasInitialSubmit, setHasInitialSubmit] = useState(false)
 
   const primaryRoles: Role[] = ["player", "fan", "club", "agent", "scout", "coach"]
   const professionalRoles: Role[] = ["analyst", "psychologist", "trainer", "physio", "media"]
@@ -251,8 +252,9 @@ export default function WaitlistClient() {
     setIsSubmitting(true);
     setErrorMessage(null);
     try {
+      const method = hasInitialSubmit ? 'PUT' : 'POST';
       const response = await fetch('/api/waitlist', {
-        method: 'POST',
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -270,14 +272,18 @@ export default function WaitlistClient() {
       const data = await response.json();
 
       if (!response.ok) {
-        if (response.status === 409 && data.waitlistNumber) {
+        if (!hasInitialSubmit && response.status === 409 && data.waitlistNumber) {
           setWaitlistNumber(data.waitlistNumber);
+          setHasInitialSubmit(true);
         } else {
           setErrorMessage(data.error || 'Something went wrong');
           return;
         }
       } else {
         setWaitlistNumber(data.waitlistNumber);
+        if (!hasInitialSubmit) {
+          setHasInitialSubmit(true);
+        }
       }
 
       if (step === 3 && selectedRole === 'club') {

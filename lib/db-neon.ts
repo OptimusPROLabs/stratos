@@ -33,7 +33,7 @@ export async function initDatabase() {
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         name TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
-        role TEXT NOT NULL,
+        role TEXT,
         answer TEXT,
         players JSONB,
         waitlist_number SERIAL UNIQUE,
@@ -59,11 +59,11 @@ export async function getWaitlistUsers(): Promise<WaitlistUser[]> {
   return users as WaitlistUser[];
 }
 
-// Add new user
+// Add new user (initial name/email)
 export async function addWaitlistUser(userData: {
   name: string;
   email: string;
-  role: string;
+  role?: string;
   answer?: string;
   players?: any;
 }): Promise<WaitlistUser> {
@@ -76,7 +76,7 @@ export async function addWaitlistUser(userData: {
   try {
     const users = await sql`
       INSERT INTO waitlist_users (name, email, role, answer, players)
-      VALUES (${userData.name}, ${userData.email}, ${userData.role}, ${userData.answer || null}, ${userData.players || null})
+      VALUES (${userData.name}, ${userData.email}, ${userData.role || null}, ${userData.answer || null}, ${userData.players || null})
       RETURNING *
     `;
     return users[0] as WaitlistUser;
@@ -89,6 +89,34 @@ export async function addWaitlistUser(userData: {
     }
     throw error;
   }
+}
+
+// Update existing user (add role/answer/players
+export async function updateWaitlistUser(
+  email: string,
+  userData: {
+    role?: string;
+    answer?: string;
+    players?: any;
+  }
+): Promise<WaitlistUser> {
+  if (!sql) {
+    throw new Error('No database connection');
+  }
+  
+  await initDatabase();
+  
+  const users = await sql`
+    UPDATE waitlist_users
+    SET 
+      role = COALESCE(${userData.role || null}, role),
+      answer = COALESCE(${userData.answer || null}, answer),
+      players = COALESCE(${userData.players || null}, players)
+    WHERE email = ${email}
+    RETURNING *
+  `;
+  
+  return users[0] as WaitlistUser;
 }
 
 // Get user by email
