@@ -5,10 +5,12 @@ export interface WaitlistUser {
   name: string;
   email: string;
   role: string;
+  question_text?: string;
   answer?: string;
   players?: any;
   waitlist_number: number;
   created_at: string;
+  updated_at?: string;
 }
 
 // Initialize Neon client - check for both common env var names
@@ -34,12 +36,17 @@ export async function initDatabase() {
         name TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         role TEXT,
+        question_text TEXT,
         answer TEXT,
         players JSONB,
         waitlist_number SERIAL UNIQUE,
-        created_at TIMESTAMPTZ DEFAULT NOW()
+        created_at TIMESTAMPTZ DEFAULT NOW(),
+        updated_at TIMESTAMPTZ DEFAULT NOW()
       )
     `;
+    await sql`ALTER TABLE waitlist_users ADD COLUMN IF NOT EXISTS question_text TEXT`;
+    await sql`ALTER TABLE waitlist_users ADD COLUMN IF NOT EXISTS players JSONB`;
+    await sql`ALTER TABLE waitlist_users ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW()`;
     console.log('✅ Database table ready');
   } catch (error) {
     console.error('Error initializing database:', error);
@@ -64,6 +71,7 @@ export async function addWaitlistUser(userData: {
   name: string;
   email: string;
   role?: string;
+  questionText?: string;
   answer?: string;
   players?: any;
 }): Promise<WaitlistUser> {
@@ -72,11 +80,12 @@ export async function addWaitlistUser(userData: {
   }
   
   await initDatabase();
+  const serializedPlayers = userData.players ? JSON.stringify(userData.players) : null;
   
   try {
     const users = await sql`
-      INSERT INTO waitlist_users (name, email, role, answer, players)
-      VALUES (${userData.name}, ${userData.email}, ${userData.role || null}, ${userData.answer || null}, ${userData.players || null})
+      INSERT INTO waitlist_users (name, email, role, question_text, answer, players)
+      VALUES (${userData.name}, ${userData.email}, ${userData.role || null}, ${userData.questionText || null}, ${userData.answer || null}, ${serializedPlayers}::jsonb)
       RETURNING *
     `;
     return users[0] as WaitlistUser;
@@ -96,6 +105,7 @@ export async function updateWaitlistUser(
   email: string,
   userData: {
     role?: string;
+    questionText?: string;
     answer?: string;
     players?: any;
   }
@@ -105,13 +115,16 @@ export async function updateWaitlistUser(
   }
   
   await initDatabase();
+  const serializedPlayers = userData.players ? JSON.stringify(userData.players) : null;
   
   const users = await sql`
     UPDATE waitlist_users
     SET 
       role = COALESCE(${userData.role || null}, role),
+      question_text = COALESCE(${userData.questionText || null}, question_text),
       answer = COALESCE(${userData.answer || null}, answer),
-      players = COALESCE(${userData.players || null}, players)
+      players = COALESCE(${serializedPlayers}::jsonb, players),
+      updated_at = NOW()
     WHERE email = ${email}
     RETURNING *
   `;

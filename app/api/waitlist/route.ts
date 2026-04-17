@@ -4,6 +4,21 @@ import { addWaitlistUser, getWaitlistUsers, getUserByEmail, initDatabase, update
 // Initialize database on module load
 let dbInitialized = false;
 
+function normalizeUser(user: any) {
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    questionText: user.questionText || user.question_text,
+    answer: user.answer,
+    players: user.players,
+    waitlistNumber: user.waitlistNumber || user.waitlist_number,
+    createdAt: user.createdAt || user.created_at,
+    updatedAt: user.updatedAt || user.updated_at,
+  };
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Initialize DB if not already done
@@ -13,7 +28,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, email, role, answer, players } = body;
+    const { name, email, role, questionText, answer, players } = body;
 
     if (!email || !name || !role) {
       return NextResponse.json(
@@ -38,17 +53,17 @@ export async function POST(request: NextRequest) {
       name,
       email,
       role,
+      questionText,
       answer,
       players,
     });
-
-    const waitlistNumber = (user as any).waitlistNumber || (user as any).waitlist_number;
+    const normalizedUser = normalizeUser(user);
 
     return NextResponse.json(
       {
         success: true,
-        waitlistNumber,
-        user,
+        waitlistNumber: normalizedUser.waitlistNumber,
+        user: normalizedUser,
       },
       { status: 201 }
     );
@@ -74,16 +89,7 @@ export async function GET() {
     const users = await getWaitlistUsers();
     
     // Normalize fields
-    const normalizedUsers = users.map((u: any) => ({
-      id: u.id,
-      name: u.name,
-      email: u.email,
-      role: u.role,
-      answer: u.answer,
-      players: u.players,
-      waitlistNumber: u.waitlistNumber || u.waitlist_number,
-      createdAt: u.createdAt || u.created_at,
-    }));
+    const normalizedUsers = users.map((u: any) => normalizeUser(u));
     
     return NextResponse.json({ users: normalizedUsers });
   } catch (error) {
@@ -106,7 +112,7 @@ export async function PUT(request: NextRequest) {
     }
     
     const body = await request.json();
-    const { email, role, answer, players } = body;
+    const { email, role, questionText, answer, players } = body;
     
     if (!email) {
       return NextResponse.json(
@@ -123,23 +129,14 @@ export async function PUT(request: NextRequest) {
       );
     }
     
-    const updated = await updateWaitlistUser(email, { role, answer, players });
-    const waitlistNumber = (updated as any).waitlistNumber || (updated as any).waitlist_number;
+    const updated = await updateWaitlistUser(email, { role, questionText, answer, players });
+    const normalizedUser = normalizeUser(updated);
     
     return NextResponse.json(
       {
         success: true,
-        waitlistNumber,
-        user: {
-          id: (updated as any).id,
-          name: (updated as any).name,
-          email: (updated as any).email,
-          role: (updated as any).role,
-          answer: (updated as any).answer,
-          players: (updated as any).players,
-          waitlistNumber,
-          createdAt: (updated as any).createdAt || (updated as any).created_at,
-        },
+        waitlistNumber: normalizedUser.waitlistNumber,
+        user: normalizedUser,
       },
       { status: 200 }
     );

@@ -8,9 +8,12 @@ interface WaitlistUser {
   name: string
   email: string
   role: string
+  questionText?: string
   answer?: string
+  players?: Array<{ name: string; email: string }>
   waitlistNumber: number
   createdAt: string
+  updatedAt?: string
 }
 
 export default function AdminPage() {
@@ -63,6 +66,9 @@ export default function AdminPage() {
                   <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Name</th>
                   <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Email</th>
                   <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Role</th>
+                  <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Question</th>
+                  <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Answer</th>
+                  <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Players</th>
                   <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Date</th>
                   <th className="text-left p-4 text-sm font-medium text-[#8899aa]">Spot</th>
                 </tr>
@@ -77,6 +83,11 @@ export default function AdminPage() {
                       <span className="px-2 py-1 bg-[#b8ff56]/10 text-[#b8ff56] text-xs rounded border border-[#b8ff56]/20">
                         {user.role}
                       </span>
+                    </td>
+                    <td className="p-4 text-[#8899aa] text-sm">{user.questionText || "—"}</td>
+                    <td className="p-4 text-[#8899aa] text-sm">{user.answer || "—"}</td>
+                    <td className="p-4 text-[#8899aa] text-sm">
+                      {user.players?.length ? `${user.players.length} player${user.players.length > 1 ? "s" : ""}` : "—"}
                     </td>
                     <td className="p-4 text-[#8899aa]">
                       {new Date(user.createdAt).toLocaleDateString()}

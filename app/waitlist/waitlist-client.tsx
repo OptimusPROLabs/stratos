@@ -4,7 +4,6 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Check, User, Users, Search, Award, Activity, Brain, Dumbbell, HeartPulse, PenTool, ChevronDown, ChevronUp, Plus, X } from "lucide-react"
-import Link from "next/link"
 import { StratosPlayerCard } from "@/components/stratos-player-card"
 
 type Step = 0 | 1 | 2 | 3 | 4 | 5
@@ -26,6 +25,10 @@ interface Player {
   id: number
   name: string
   email: string
+}
+
+interface WaitlistSubmitOptions {
+  answer?: string | null
 }
 
 const countries = [
@@ -210,6 +213,22 @@ export default function WaitlistClient() {
     )
   }
 
+  const getQuestionText = () => {
+    if (!selectedRole) return undefined
+    return roleQuestions[selectedRole].text
+  }
+
+  const getPlayersPayload = () => {
+    if (selectedRole !== "club") return undefined
+
+    return players
+      .filter((player) => player.name.trim() || player.email.trim())
+      .map((player) => ({
+        name: player.name.trim(),
+        email: player.email.trim(),
+      }))
+  }
+
   const handleNext = () => {
     if (step < 5) {
       if (step === 3 && selectedRole === 'club') {
@@ -248,11 +267,15 @@ export default function WaitlistClient() {
     ))
   };
 
-  const submitWaitlist = async () => {
+  const submitWaitlist = async (options?: WaitlistSubmitOptions) => {
     setIsSubmitting(true);
     setErrorMessage(null);
     try {
       const method = hasInitialSubmit ? 'PUT' : 'POST';
+      const answerToSubmit = options?.answer !== undefined ? options.answer : selectedAnswer;
+      const playersToSubmit = getPlayersPayload();
+      const questionText = getQuestionText();
+
       const response = await fetch('/api/waitlist', {
         method,
         headers: {
@@ -262,10 +285,9 @@ export default function WaitlistClient() {
           name,
           email,
           role: selectedRole,
-          answer: selectedAnswer,
-          players: selectedRole === 'club' 
-            ? players.filter(p => p.name || p.email).map(p => ({ name: p.name, email: p.email }))
-            : undefined,
+          questionText,
+          answer: answerToSubmit,
+          players: playersToSubmit,
         }),
       });
 
@@ -506,7 +528,7 @@ export default function WaitlistClient() {
 
               <div className="text-center pt-2 sm:pt-4">
                 <Button
-                  onClick={submitWaitlist}
+                  onClick={() => submitWaitlist()}
                   disabled={!email || !name || isSubmitting}
                   className="bg-[#b8ff56] text-[#001220] hover:bg-[#b8ff56]/90 disabled:opacity-50 disabled:cursor-not-allowed px-8 sm:px-10 py-4 sm:py-5 text-sm sm:text-base font-bold rounded-none w-full sm:w-auto"
                 >
@@ -541,7 +563,7 @@ export default function WaitlistClient() {
                       key={index}
                       onClick={() => {
                         setSelectedAnswer(option)
-                        submitWaitlist()
+                        submitWaitlist({ answer: option })
                       }}
                       disabled={isSubmitting}
                       className={`w-full text-left p-3 sm:p-4 md:p-6 border-2 transition-all duration-200 ${
@@ -599,7 +621,7 @@ export default function WaitlistClient() {
                                 key={index}
                                 onClick={() => {
                                   setSelectedAnswer(country)
-                                  submitWaitlist()
+                                  submitWaitlist({ answer: country })
                                 }}
                                 disabled={isSubmitting}
                                 className="w-full text-left p-3 hover:bg-[#b8ff56]/10 transition-colors border-b border-[#1a2332]/50 last:border-0"
@@ -626,7 +648,7 @@ export default function WaitlistClient() {
                       key={index}
                       onClick={() => {
                         setSelectedAnswer(option)
-                        submitWaitlist()
+                        submitWaitlist({ answer: option })
                       }}
                       disabled={isSubmitting}
                       className={`w-full text-left p-3 sm:p-4 md:p-6 border-2 transition-all duration-200 ${
@@ -645,7 +667,7 @@ export default function WaitlistClient() {
 
               <div className="mt-6 sm:mt-10 text-center">
                 <button
-                  onClick={submitWaitlist}
+                  onClick={() => submitWaitlist({ answer: null })}
                   disabled={isSubmitting}
                   className="text-[#8899aa] hover:text-white transition-colors text-sm sm:text-base"
                 >
@@ -719,7 +741,7 @@ export default function WaitlistClient() {
                 </button>
                 
                 <Button
-                  onClick={submitWaitlist}
+                  onClick={() => submitWaitlist()}
                   disabled={isSubmitting}
                   className="bg-[#b8ff56] text-[#001220] hover:bg-[#b8ff56]/90 disabled:opacity-50 disabled:cursor-not-allowed px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-bold rounded-none w-full sm:w-auto order-1 sm:order-2"
                 >
