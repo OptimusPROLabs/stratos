@@ -194,6 +194,7 @@ export default function WaitlistClient() {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
   const [waitlistNumber, setWaitlistNumber] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [showCountrySearch, setShowCountrySearch] = useState(false)
   const [countrySearch, setCountrySearch] = useState("")
   const [players, setPlayers] = useState<Player[]>([{ id: 1, name: "", email: "" }])
@@ -248,6 +249,7 @@ export default function WaitlistClient() {
 
   const submitWaitlist = async () => {
     setIsSubmitting(true);
+    setErrorMessage(null);
     try {
       const response = await fetch('/api/waitlist', {
         method: 'POST',
@@ -271,7 +273,8 @@ export default function WaitlistClient() {
         if (response.status === 409 && data.waitlistNumber) {
           setWaitlistNumber(data.waitlistNumber);
         } else {
-          alert(data.error || 'Something went wrong');
+          setErrorMessage(data.error || 'Something went wrong');
+          return;
         }
       } else {
         setWaitlistNumber(data.waitlistNumber);
@@ -286,7 +289,7 @@ export default function WaitlistClient() {
       }
     } catch (error) {
       console.error('Error submitting waitlist:', error);
-      alert('Error submitting. Please try again.');
+      setErrorMessage('Error submitting. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -504,6 +507,13 @@ export default function WaitlistClient() {
                   {isSubmitting ? 'SUBMITTING...' : 'CLAIM MY SPOT'}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
+                
+                {/* Error Message */}
+                {errorMessage && (
+                  <div className="mt-4 p-4 bg-red-900/30 border border-red-500/50 rounded">
+                    <p className="text-red-300 text-sm">{errorMessage}</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
