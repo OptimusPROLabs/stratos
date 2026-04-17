@@ -28,3 +28,7 @@ next-env.d.ts
 
 # waitlist database
 /data
+
+.env
+.env.local
+*env

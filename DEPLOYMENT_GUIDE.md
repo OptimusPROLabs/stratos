@@ -1,9 +1,32 @@
 # Stratos Waitlist Deployment Guide
 
-## Quickest Option (Vercel Stack)
-1. Neon Postgres - Managed PostgreSQL (free tier available)
-2. Vercel Blob - File storage if needed (for saved card images, etc.)
-3. Vercel Hosting - Already set up
+## ✅ DONE - Neon Postgres already set up!
+You already have Neon Postgres connected via your Vercel Project! 🎉
+
+---
+
+## 🚀 What's Set Up:
+1. **Neon Postgres** - Connected via your Vercel Storage
+2. **@neondatabase/serverless SDK** - Installed and ready
+3. **lib/db-neon.ts** - Neon database functions
+4. **Fallback System** - Auto-falls back to local JSON if DATABASE_URL not set
+
+---
+
+## 📝 Local Development Setup:
+1. Go to your Vercel Project → Settings → Environment Variables
+2. Copy `DATABASE_URL` from there
+3. Create `.env.local` in `/stratos/`
+4. Add: `DATABASE_URL=your-vercel-neon-database-url-here`
+5. Restart your dev server!
+
+---
+
+## 🔄 Migration from Local JSON to Neon:
+To import your existing `/data/waitlist.json` users to Neon, you can:
+1. Use the Neon SQL Editor
+2. Or create a quick import script
+3. We can help with this when you're ready!
 
 ---
 
@@ -12,20 +35,6 @@
 
 ---
 
-## Step 2: Migrate to Neon Postgres
-1. Go to https://neon.tech
-2. Create a free Neon Postgres project
-3. Copy your DATABASE_URL from Neon
-4. Add it to your Vercel Environment Variables
-5. We'll help you migrate the JSON data to Neon!
-
----
-
 ## Step 3: Set up Vercel Blob (Optional)
 For storing user-uploaded images, saved cards, etc.
-
----
-
-## Current Data
-Your current waitlist is stored in `/data/waitlist.json`. We can migrate this to Neon when you're ready!
 
