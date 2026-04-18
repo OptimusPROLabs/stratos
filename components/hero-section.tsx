@@ -1,14 +1,11 @@
 "use client"
 
-import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 export function HeroSection() {
-  const t = useTranslations("hero")
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
@@ -21,21 +18,22 @@ export function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 md:px-6 text-center pt-24 pb-16">
-        <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-6 text-balance font-[family-name:var(--font-display)]">
-          <span className="text-primary">{t("titleHighlight")}</span>
-          <br className="hidden sm:block" />
-          {t("title")}
+        <h1 className="mb-5 flex flex-col items-center gap-2 sm:gap-3 md:mb-6 md:gap-4 font-[family-name:var(--font-display)] text-[clamp(1.5rem,6.5vw,4.5rem)] font-bold leading-[1.12] tracking-tight sm:text-4xl md:text-6xl lg:text-7xl">
+          <span className="text-primary text-balance">The Pitch is Set</span>
+          <span className="text-balance text-white">The Game is About to Begin</span>
         </h1>
-        <p className="text-white/70 text-base md:text-lg lg:text-xl mb-8 md:mb-12 max-w-2xl mx-auto text-pretty px-4">
-         {t("subtitle")}
-         </p>
+        <p className="mx-auto mb-3 max-w-2xl px-1 text-sm leading-relaxed text-white/80 sm:text-base md:max-w-4xl md:text-lg lg:text-xl">
+          For every player waiting to be seen, every fan ready to belong, and every club searching for the next star,
+          the wait is over. Stratos connects players, fans, and clubs worldwide.
+        </p>
+        <p className="mb-8 text-xs font-semibold text-primary sm:mb-10 sm:text-sm md:mb-12 md:text-base">
+          Limited Access. Invite Only. Join Now
+        </p>
 
         {/* Join Waitlist Button */}
-        <Link href="/waitlist">
-          <Button
-            className="w-full max-w-xs sm:max-w-md rounded-3xl bg-[#B8FF56] text-[#001220] hover:bg-[#B8FF56]/90 h-12 text-base font-semibold"
-          >
-            {t("joinWaitlist")}
+        <Link href="/waitlist" className="mx-auto block max-w-sm sm:max-w-md">
+          <Button className="h-12 w-full rounded-3xl bg-[#B8FF56] text-base font-semibold text-[#001220] hover:bg-[#B8FF56]/90">
+            Join the Waitlist
           </Button>
         </Link>
       </div>

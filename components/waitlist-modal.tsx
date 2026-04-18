@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { X } from "lucide-react"
-import { useTranslations } from "next-intl"
 
 interface WaitlistModalProps {
   isOpen: boolean
@@ -15,12 +14,10 @@ interface WaitlistModalProps {
 }
 //change
 export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
-  const t = useTranslations("waitlist")
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     category: "fan",
   })
@@ -54,7 +51,6 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: formData.name.trim(),
           email: formData.email.trim(),
           role: formData.category,
         }),
@@ -68,7 +64,6 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
 
       setIsSubmitted(true)
       setFormData({
-        name: "",
         email: "",
         category: "fan",
       })
@@ -108,31 +103,15 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
           <>
             <div className="text-center mb-8">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 font-[family-name:var(--font-display)]">
-                {t("title")}
+                Your Football Dream Starts Here.
               </h2>
-              <p className="text-white/70 text-base md:text-lg">{t("description")}</p>
+              <p className="text-white/70 text-base md:text-lg">Don't just play. Go PRO with Stratos.</p>
             </div>
 
             <form onSubmit={submitWaitlist} className="space-y-5">
               <div>
-                <Label htmlFor="name" className="text-white/90 mb-2 block text-sm md:text-base">
-                 {t("firstName")}
-                </Label>
-                <Input
-                  id="name"
-                  type="name"
-                  name="name"
-                  required
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="bg-white/10 border-white/25 text-white placeholder:text-white/50 h-12 md:h-14 rounded-xl backdrop-blur-sm"
-                  placeholder="Enter your name"
-                />
-              </div>
-
-              <div>
                 <Label htmlFor="email" className="text-white/90 mb-2 block text-sm md:text-base">
-                  {t("email")}
+                  Email
                 </Label>
                 <Input
                   id="email"
@@ -147,7 +126,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
               </div>
 
               <div>
-                <Label className="text-white/90 mb-3 block text-sm md:text-base">{t("category")}</Label>
+                <Label className="text-white/90 mb-3 block text-sm md:text-base">Role</Label>
                 <div className="flex flex-wrap gap-3">
                   <label className="flex items-center gap-2 text-white/90 cursor-pointer bg-white/10 border border-white/25 px-4 py-3 rounded-xl backdrop-blur-sm hover:bg-white/15 transition-colors">
                     <input
@@ -158,7 +137,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       onChange={handleInputChange}
                       className="accent-[#B8FF56] w-4 h-4"
                     />
-                    {t("fan")}
+                    Fan
                   </label>
                   <label className="flex items-center gap-2 text-white/90 cursor-pointer bg-white/10 border border-white/25 px-4 py-3 rounded-xl backdrop-blur-sm hover:bg-white/15 transition-colors">
                     <input
@@ -169,7 +148,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       onChange={handleInputChange}
                       className="accent-[#B8FF56] w-4 h-4"
                     />
-                    {t("player")}
+                    Player
                   </label>
                   <label className="flex items-center gap-2 text-white/90 cursor-pointer bg-white/10 border border-white/25 px-4 py-3 rounded-xl backdrop-blur-sm hover:bg-white/15 transition-colors">
                     <input
@@ -180,7 +159,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       onChange={handleInputChange}
                       className="accent-[#B8FF56] w-4 h-4"
                     />
-                    {t("club")}
+                    Club
                   </label>
                 </div>
               </div>
@@ -190,8 +169,9 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                 disabled={isSubmitting}
                 className="w-full bg-[#B8FF56] text-[#001220] hover:bg-[#B8FF56]/90 h-12 md:h-14 text-base md:text-lg rounded-3xl font-semibold mt-4"
               >
-                {isSubmitting ? "Submitting..." : t("submit")}
+                {isSubmitting ? "Submitting..." : "Secure Your Spot"}
               </Button>
+              <p className="text-center text-white/60 text-sm">No spam. Just early access.</p>
 
               {errorMessage && (
                 <div className="rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
@@ -208,7 +188,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
               </svg>
             </div>
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 font-[family-name:var(--font-display)]">
-              Welcome to Stratos!
+              Welcome to Stratos Football!
             </h3>
             <p className="text-white/70 text-base md:text-lg">You're on the list. We'll be in touch soon.</p>
           </div>

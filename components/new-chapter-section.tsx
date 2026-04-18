@@ -1,11 +1,9 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { useTranslations } from "next-intl"
 
 export function NewChapterSection() {
   const scrollTextRef = useRef<HTMLDivElement>(null)
-  const t = useTranslations("newChapter")
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,44 +19,89 @@ export function NewChapterSection() {
         const wordElement = word as HTMLElement
         const wordPosition = sectionTop + (index / words.length) * sectionHeight
         const distance = Math.abs(scrollPosition - wordPosition)
-        const maxDistance = 200
-
-        // Keep all words visible
-        wordElement.style.opacity = "1"
-
-        const isHighlighted = wordElement.hasAttribute("data-highlight")
+        const maxDistance = 220
+        const highlight = wordElement.dataset.highlight
 
         if (distance < maxDistance) {
-          wordElement.style.color = isHighlighted ? "#B8FF56" : "#ffffff"
+          if (highlight === "green") {
+            wordElement.style.color = "#B8FF56"
+          } else if (highlight === "blue") {
+            wordElement.style.color = "#008EFA"
+          } else {
+            wordElement.style.color = "#FFFFFF"
+          }
         } else {
-          wordElement.style.color = "#808080" // standard gray
+          wordElement.style.color = "#8B95A5"
         }
       })
     }
 
     window.addEventListener("scroll", handleScroll)
     handleScroll()
-
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const paragraphWords = t.raw("paragraphWords") as Array<{ text: string; highlight: boolean }>
+  const paragraphWords: Array<{ text: string; highlight?: "green" | "blue" }> = [
+    { text: "From" },
+    { text: "the" },
+    { text: "streets", highlight: "green" },
+    { text: "of" },
+    { text: "Lagos", highlight: "blue" },
+    { text: "to" },
+    { text: "the" },
+    { text: "beaches", highlight: "green" },
+    { text: "of" },
+    { text: "Rio,", highlight: "blue" },
+    { text: "from" },
+    { text: "Tokyo", highlight: "blue" },
+    { text: "alleys" },
+    { text: "to" },
+    { text: "English" },
+    { text: "backyards,", highlight: "green" },
+    { text: "football" },
+    { text: "has" },
+    { text: "always" },
+    { text: "been" },
+    { text: "more", highlight: "green" },
+    { text: "than" },
+    { text: "a" },
+    { text: "game." },
+    { text: "It" },
+    { text: "is" },
+    { text: "the" },
+    { text: "world's", highlight: "blue" },
+    { text: "universal" },
+    { text: "language,", highlight: "green" },
+    { text: "bringing" },
+    { text: "over" },
+    { text: "3.5", highlight: "blue" },
+    { text: "billion", highlight: "green" },
+    { text: "people" },
+    { text: "together." },
+    { text: "But" },
+    { text: "behind" },
+    { text: "the" },
+    { text: "passion,", highlight: "green" },
+    { text: "the" },
+    { text: "system", highlight: "blue" },
+    { text: "is" },
+    { text: "broken." },
+  ]
 
   return (
-    <section className="py-12 md:py-20 px-4">
+    <section id="about" className="py-12 md:py-20 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-0.5">
-          <span className="text-blue-400 font-display">{t("title")}</span>
-          {t("titleSuffix")}
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">
+          <span className="text-blue-400 font-display">A New Chapter</span> in Football
         </h2>
 
-        <div ref={scrollTextRef} className="min-h-[80vh] md:min-h-[100vh] flex items-center">
-          <p className="text-lg md:text-2xl lg:text-4xl leading-relaxed">
+        <div ref={scrollTextRef} className="flex items-center">
+          <p className="text-lg md:text-2xl lg:text-3xl leading-relaxed">
             {paragraphWords.map((word, index) => (
               <span
-                key={index}
-                className="scroll-word inline-block transition-colors duration-300 mr-2 md:mr-3 text-white"
-                {...(word.highlight && { "data-highlight": true })}
+                key={`${word.text}-${index}`}
+                className="scroll-word inline-block transition-colors duration-300 mr-2 md:mr-3"
+                data-highlight={word.highlight}
               >
                 {word.text}
               </span>

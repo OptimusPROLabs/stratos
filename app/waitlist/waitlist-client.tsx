@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Check, User, Users, Search, Award, Activity, Brain, Dumbbell, HeartPulse, PenTool, ChevronDown, ChevronUp, Plus, X } from "lucide-react"
@@ -105,41 +106,43 @@ const roleQuestions: Record<Role, Question> = {
   }
 }
 
+const talentNetworkHook = "Spot talent early. Discover the next stars. Win."
+
 const roles: Record<Role, RoleData> = {
   player: {
     icon: <User className="w-5 h-5 sm:w-6 sm:h-6" />,
-    label: "Player",
-    hook: "Get funded. Get seen. Get to the next level.",
+    label: "Players",
+    hook: "Develop. Get discovered. Go PRO.",
     isPrimary: true
   },
   fan: {
     icon: <Users className="w-5 h-5 sm:w-6 sm:h-6" />,
-    label: "Fan",
-    hook: "Back the players who'll make history.",
+    label: "Fans",
+    hook: "More than spectators– be part of the journey.",
     isPrimary: true
   },
   club: {
     icon: <Award className="w-5 h-5 sm:w-6 sm:h-6" />,
-    label: "Club / Academy",
-    hook: "Find, develop, and retain elite talent.",
+    label: "Clubs / Academies",
+    hook: "See what others can't. Recruit the best.",
     isPrimary: true
   },
   agent: {
     icon: <Activity className="w-5 h-5 sm:w-6 sm:h-6" />,
     label: "Agent",
-    hook: "Manage your players' rise — all in one place.",
+    hook: talentNetworkHook,
     isPrimary: true
   },
   scout: {
     icon: <Search className="w-5 h-5 sm:w-6 sm:h-6" />,
     label: "Scout",
-    hook: "Discover verified talent before anyone else.",
+    hook: talentNetworkHook,
     isPrimary: true
   },
   coach: {
     icon: <Award className="w-5 h-5 sm:w-6 sm:h-6" />,
     label: "Coach",
-    hook: "Build your coaching profile. Attract the right clubs.",
+    hook: talentNetworkHook,
     isPrimary: true
   },
   analyst: {
@@ -178,9 +181,9 @@ const roleHeadlines: Record<Role, string> = {
   player: "Where should we send your Stratos access?",
   fan: "You're about to back the next generation.",
   club: "Reserve your early access to the talent pipeline.",
-  agent: "Your roster starts here.",
-  scout: "First look privileges. Enter your email.",
-  coach: "Your profile, your platform. Let's build it.",
+  agent: "Spot talent early — enter your email to stay ahead.",
+  scout: "Spot talent early — enter your email to stay ahead.",
+  coach: "Spot talent early — enter your email to stay ahead.",
   analyst: "The ecosystem needs people like you.",
   psychologist: "The ecosystem needs people like you.",
   trainer: "The ecosystem needs people like you.",
@@ -188,10 +191,24 @@ const roleHeadlines: Record<Role, string> = {
   media: "The ecosystem needs people like you."
 }
 
+const mainWaitlistRoles: Role[] = ["player", "fan", "club"]
+const othersPickRoles: Array<"coach" | "scout" | "agent"> = ["coach", "scout", "agent"]
+
+const forRoleLabel: Record<(typeof mainWaitlistRoles)[number], string> = {
+  player: "For Players:",
+  fan: "For Fans:",
+  club: "For Clubs:",
+}
+
+function isOthersRole(role: Role | null): role is "coach" | "scout" | "agent" {
+  return role === "coach" || role === "scout" || role === "agent"
+}
+
 export default function WaitlistClient() {
   const [step, setStep] = useState<Step>(0)
   const [selectedRole, setSelectedRole] = useState<Role | null>(null)
-  const [showProfessionalRoles, setShowProfessionalRoles] = useState(false)
+  /** Single "Others" tile: when true, show Coach / Scout / Agent picker */
+  const [othersOpen, setOthersOpen] = useState(false)
   const [email, setEmail] = useState("")
   const [name, setName] = useState("")
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
@@ -203,8 +220,11 @@ export default function WaitlistClient() {
   const [players, setPlayers] = useState<Player[]>([{ id: 1, name: "", email: "" }])
   const [hasInitialSubmit, setHasInitialSubmit] = useState(false)
 
-  const primaryRoles: Role[] = ["player", "fan", "club", "agent", "scout", "coach"]
-  const professionalRoles: Role[] = ["analyst", "psychologist", "trainer", "physio", "media"]
+  useEffect(() => {
+    if (step === 1 && isOthersRole(selectedRole)) {
+      setOthersOpen(true)
+    }
+  }, [step, selectedRole])
 
   const getFilteredCountries = () => {
     if (!countrySearch) return countries
@@ -336,56 +356,57 @@ export default function WaitlistClient() {
         }} />
       </div>
 
-      {/* Epic stadium glow */}
+      {/* Static stadium glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] md:w-[1200px] h-[800px] md:h-[1200px] bg-[#008efa] rounded-full opacity-[0.08] blur-[100px] md:blur-[150px] animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-[#b8ff56] rounded-full opacity-[0.05] blur-[60px] md:blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] md:w-[1200px] h-[800px] md:h-[1200px] bg-[#008efa] rounded-full opacity-[0.08] blur-[100px] md:blur-[150px]" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-[#b8ff56] rounded-full opacity-[0.05] blur-[60px] md:blur-[100px]" />
       </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-8">
-        {/* Step 0: HERO ENTRY - FULLY RESPONSIVE */}
+        <Link
+          href="/"
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 rounded-lg p-2 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+          aria-label="Close and return home"
+        >
+          <X className="h-6 w-6 sm:h-7 sm:w-7" />
+        </Link>
+
+        {/* Step 0: Intro */}
         {step === 0 && (
-          <div className="text-center max-w-4xl mx-auto px-2">
-            {/* STRATOS - MASSIVE, RESPONSIVE */}
-            <div className="mb-4 sm:mb-6 animate-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: '0.1s' }}>
-              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black tracking-[0.1em] sm:tracking-[0.15em] uppercase text-white drop-shadow-[0_0_40px_rgba(184,255,86,0.3)] sm:drop-shadow-[0_0_80px_rgba(184,255,86,0.3)]">
-                STRATOS
+          <div className="text-center max-w-3xl mx-auto px-2 pt-10">
+            <p className="mb-3 text-base sm:text-lg font-medium text-[#b8ff56] animate-in slide-in-from-bottom-4 duration-700">
+              Rise Above Limits...
+            </p>
+            <div className="mb-6 sm:mb-8 animate-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: "0.1s" }}>
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-[0.08em] sm:tracking-[0.12em] uppercase text-white drop-shadow-[0_0_40px_rgba(184,255,86,0.25)]">
+                Stratos
               </h1>
             </div>
-
-            {/* Headline - FULLY RESPONSIVE, Perfect on All Screens */}
-            <div className="mb-6 sm:mb-10 md:mb-14 animate-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: '0.3s' }}>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.3] tracking-tight">
-                <span className="block">The Platform Built For</span>
-                <span className="block">The Ones</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#b8ff56] to-[#008efa] block">The World</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#b8ff56] to-[#008efa] block">Hasn't Discovered Yet.</span>
-              </h2>
-            </div>
-
-            {/* Subtext - RESPONSIVE */}
-            <div className="mb-8 sm:mb-12 md:mb-16 animate-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: '0.4s' }}>
-              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light leading-relaxed text-[#8899aa] max-w-2xl mx-auto">
-                Join Stratos. Be first. Shape what comes next.
+            <div className="mb-4 animate-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: "0.2s" }}>
+              <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-white">
+                Get early access to Stratos.
               </p>
             </div>
-
-            {/* CTA Button - FULLY RESPONSIVE */}
-            <div className="animate-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: '0.5s' }}>
+            <div className="mb-8 sm:mb-12 animate-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: "0.3s" }}>
+              <p className="text-base sm:text-lg md:text-xl font-light leading-relaxed text-[#8899aa] max-w-2xl mx-auto">
+                Be part of a global football network built for all - players, fans, clubs, academies, scouts, agents and more
+              </p>
+            </div>
+            <div className="animate-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: "0.4s" }}>
               <Button
                 onClick={handleNext}
-                className="group relative bg-[#b8ff56] text-[#001220] hover:bg-[#b8ff56] w-full sm:w-auto px-8 sm:px-16 md:px-24 py-5 sm:py-7 md:py-9 text-base sm:text-xl md:text-2xl lg:text-3xl font-black rounded-none tracking-[0.1em] sm:tracking-[0.15em] uppercase transition-all duration-300 hover:scale-[1.02] sm:hover:scale-[1.05] hover:shadow-[0_0_30px_rgba(184,255,86,0.4)] sm:hover:shadow-[0_0_60px_rgba(184,255,86,0.5)]"
+                className="group relative bg-[#b8ff56] text-[#001220] hover:bg-[#b8ff56] w-full sm:w-auto px-8 sm:px-16 md:px-20 py-5 sm:py-7 md:py-8 text-base sm:text-lg md:text-xl font-black rounded-none tracking-wide uppercase transition-all duration-300 hover:scale-[1.02] sm:hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(184,255,86,0.4)]"
               >
-                <span className="flex items-center justify-center gap-2 sm:gap-4">
-                  GET MY SPOT
-                  <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 group-hover:translate-x-1 sm:group-hover:translate-x-2 transition-transform" />
+                <span className="flex items-center justify-center gap-2 sm:gap-3">
+                  Join Now
+                  <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Button>
             </div>
           </div>
         )}
 
-        {/* Step 1: Role Selection - FULLY RESPONSIVE */}
+        {/* Step 1: Role Selection */}
         {step === 1 && (
           <div className="w-full max-w-4xl mx-auto px-2 animate-in fade-in slide-in-from-right duration-500">
             <div className="text-center mb-6 sm:mb-10 md:mb-12">
@@ -394,98 +415,102 @@ export default function WaitlistClient() {
               </h2>
             </div>
 
-            {/* Primary roles grid - FULLY RESPONSIVE */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6">
-              {primaryRoles.map((role) => (
+            <div className="mb-8 grid grid-cols-1 gap-2 sm:grid-cols-3 sm:mb-10 sm:gap-3 md:gap-4">
+              {mainWaitlistRoles.map((role) => (
                 <button
                   key={role}
-                  onClick={() => setSelectedRole(role)}
+                  type="button"
+                  onClick={() => {
+                    setSelectedRole(role)
+                    setOthersOpen(false)
+                  }}
                   className={`relative p-3 sm:p-4 md:p-6 text-left border-2 transition-all duration-200 ${
                     selectedRole === role
-                      ? 'border-[#b8ff56] bg-[#0d1a0d]'
-                      : 'border-[#1a2332] hover:border-[#b8ff56]/50 hover:bg-[#0a0f14]'
+                      ? "border-[#b8ff56] bg-[#0d1a0d]"
+                      : "border-[#1a2332] hover:border-[#b8ff56]/50 hover:bg-[#0a0f14]"
                   }`}
                 >
                   {selectedRole === role && (
                     <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
-                      <Check className="w-4 h-4 sm:w-5 sm:h-5 text-[#b8ff56]" />
+                      <Check className="h-4 w-4 text-[#b8ff56] sm:h-5 sm:w-5" />
                     </div>
                   )}
-                  <div className="text-white mb-2 sm:mb-3">
-                    {roles[role].icon}
-                  </div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 sm:mb-2">
+                  <p className="mb-2 text-xs font-semibold text-[#b8ff56] sm:text-sm">{forRoleLabel[role]}</p>
+                  <div className="mb-2 text-white sm:mb-3">{roles[role].icon}</div>
+                  <h3 className="mb-1 text-base font-bold text-white sm:mb-2 sm:text-lg md:text-xl">
                     {roles[role].label}
                   </h3>
-                  <p className="text-[#8899aa] text-xs sm:text-sm">
-                    {roles[role].hook}
-                  </p>
+                  <p className="text-xs text-[#8899aa] sm:text-sm">{roles[role].hook}</p>
                 </button>
               ))}
             </div>
 
-            {/* Professional roles toggle */}
             <div className="mb-6 sm:mb-8">
               <button
-                onClick={() => setShowProfessionalRoles(!showProfessionalRoles)}
-                className="flex items-center justify-center gap-2 w-full py-3 sm:py-4 text-[#8899aa] hover:text-white transition-colors"
+                type="button"
+                onClick={() => {
+                  setOthersOpen(true)
+                  if (selectedRole && !isOthersRole(selectedRole)) {
+                    setSelectedRole(null)
+                  }
+                }}
+                className={`relative w-full border-2 p-4 text-left transition-all duration-300 sm:p-6 ${
+                  othersOpen || isOthersRole(selectedRole)
+                    ? "border-[#008efa] bg-[#0a1520]"
+                    : "border-[#1a2332] hover:border-[#008efa]/50 hover:bg-[#0a0f14]"
+                }`}
               >
-                {showProfessionalRoles ? (
-                  <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5" />
-                ) : (
-                  <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
+                {(othersOpen || isOthersRole(selectedRole)) && (
+                  <div className="absolute right-3 top-3 sm:right-4 sm:top-4">
+                    <Check className="h-4 w-4 text-[#008efa] sm:h-5 sm:w-5" />
+                  </div>
                 )}
-                <span className="font-medium text-sm sm:text-base">
-                  {showProfessionalRoles ? 'Hide' : '+ Show'} Football Professional
-                </span>
+                <p className="mb-2 text-sm font-semibold text-[#008efa]">For Coaches / Scouts / Agents:</p>
+                <p className="mb-3 text-lg font-bold text-white sm:text-xl">Coaches, Scouts &amp; Agents</p>
+                <p className="max-w-2xl text-sm text-[#8899aa]">{talentNetworkHook}</p>
               </button>
 
-              {showProfessionalRoles && (
-                <div className="animate-in slide-in-from-top-4 duration-300">
-                  <p className="text-center text-[#008efa] text-xs sm:text-sm mb-3 sm:mb-4 tracking-wider uppercase">
-                    Part of the Stratos Network
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
-                    {professionalRoles.map((role) => (
-                      <button
-                        key={role}
-                        onClick={() => setSelectedRole(role)}
-                        className={`relative p-3 sm:p-4 text-left border-2 transition-all duration-200 ${
-                          selectedRole === role
-                            ? 'border-[#008efa] bg-[#0d1a0d]'
-                            : 'border-[#1a2332] hover:border-[#008efa]/50 hover:bg-[#0a0f14]'
-                        }`}
-                      >
-                        {selectedRole === role && (
-                          <div className="absolute top-2 right-2">
-                            <Check className="w-4 h-4 text-[#008efa]" />
-                          </div>
-                        )}
-                        <div className="text-white mb-2">
-                          {roles[role].icon}
-                        </div>
-                        <h3 className="text-base sm:text-lg font-bold text-white mb-1">
+              <div
+                className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+                  othersOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                }`}
+              >
+                <div className="min-h-0 overflow-hidden">
+                  <div
+                    className={`space-y-4 border border-t-0 border-[#1a2332] bg-[#050a10] p-4 transition-opacity duration-300 sm:p-5 ${
+                      othersOpen ? "opacity-100" : "pointer-events-none opacity-0"
+                    }`}
+                  >
+                    <p className="text-center text-sm text-[#8899aa]">Choose your role to continue</p>
+                    <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+                      {othersPickRoles.map((role) => (
+                        <button
+                          key={role}
+                          type="button"
+                          onClick={() => setSelectedRole(role)}
+                          className={`min-w-[100px] border-2 px-4 py-3 text-sm font-semibold transition-all duration-200 sm:min-w-[120px] sm:px-6 sm:text-base ${
+                            selectedRole === role
+                              ? "border-[#b8ff56] bg-[#0d1a0d] text-white"
+                              : "border-[#1a2332] text-[#8899aa] hover:border-[#b8ff56]/50 hover:bg-[#0a0f14] hover:text-white"
+                          }`}
+                        >
                           {roles[role].label}
-                        </h3>
-                        <p className="text-[#8899aa] text-xs">
-                          {roles[role].hook}
-                        </p>
-                      </button>
-                    ))}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
 
-            {/* Continue button */}
             {selectedRole && (
               <div className="text-center">
                 <Button
                   onClick={handleNext}
-                  className="bg-[#b8ff56] text-[#001220] hover:bg-[#b8ff56]/90 px-8 sm:px-10 py-4 sm:py-5 text-sm sm:text-base font-bold rounded-none w-full sm:w-auto"
+                  className="rounded-none bg-[#b8ff56] px-8 py-4 text-sm font-bold text-[#001220] hover:bg-[#b8ff56]/90 sm:px-10 sm:py-5 sm:text-base w-full sm:w-auto"
                 >
                   CONTINUE
-                  <ArrowRight className="ml-2 w-4 h-4" />
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
             )}
