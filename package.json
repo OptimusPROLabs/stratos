@@ -5,6 +5,8 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "i18n:auto": "node scripts/auto-translate.mjs",
+    "i18n:auto:quick": "node scripts/auto-translate.mjs --locales=es,pt,fr,de,nl,id",
     "lint": "next lint",
     "start": "next start"
   },

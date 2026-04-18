@@ -1,125 +1,242 @@
 {
   "header": {
-    "home": "Inicio",
-    "about": "Sobre Nosotros",
-    "story": "Historia",
-    "getStarted": "Comenzar"
+    "story": "Story",
+    "whyStratos": "Why Stratos",
+    "about": "About",
+    "ecosystem": "Ecosystem",
+    "joinWaitlist": "Join Waitlist"
   },
   "hero": {
-    "titleHighlight": "El Campo Está Listo.",
-    "title": "El Juego Está Por Comenzar.",
-    "subtitle": "Únete al movimiento en la comunidad de fútbol de primera clase que conecta a fanáticos, profesionales y agentes en todo el mundo.",
-    "emailPlaceholder": "Ingresa tu correo electrónico",
-    "fan": "Fanático",
-    "player": "Jugador",
-    "club": "Club",
-    "joinWaitlist": "Unirse a la Lista de Espera"
+    "pitchSet": "The Pitch is Set",
+    "gameBegins": "The Game is About to Begin",
+    "subtitle": "Para cada jugador que espera ser visto, cada aficionado listo para pertenecer y cada club que busca la próxima estrella, la espera ha terminado. Stratos conecta a jugadores, aficionados y clubes de todo el mundo.",
+    "limitedAccess": "Limited Access. Invite Only. Join Now",
+    "joinWaitlist": "Join the Waitlist"
   },
   "newChapter": {
-    "title": "Un Nuevo Capítulo",
-    "titleSuffix": "en la Historia del Fútbol//",
+    "titlePrefix": "A New Chapter",
+    "titleSuffix": "in Football",
     "paragraphWords": [
-      { "text": "Imagina", "highlight": false },
-      { "text": "un", "highlight": false },
-      { "text": "mundo", "highlight": true },
-      { "text": "donde", "highlight": false },
-      { "text": "los", "highlight": false },
-      { "text": "fanáticos", "highlight": true },
-      { "text": "del", "highlight": false },
-      { "text": "fútbol", "highlight": false },
-      { "text": "son", "highlight": false },
-      { "text": "partes", "highlight": true },
-      { "text": "interesadas,", "highlight": true },
-      { "text": "no", "highlight": false },
-      { "text": "solo", "highlight": false },
-      { "text": "espectadores.", "highlight": false },
-      { "text": "Donde", "highlight": false },
-      { "text": "las", "highlight": false },
-      { "text": "estrellas", "highlight": true },
-      { "text": "emergentes", "highlight": true },
-      { "text": "tienen", "highlight": false },
-      { "text": "una", "highlight": false },
-      { "text": "oportunidad", "highlight": false },
-      { "text": "justa", "highlight": false },
-      { "text": "de", "highlight": false },
-      { "text": "brillar.", "highlight": true },
-      { "text": "Donde", "highlight": false },
-      { "text": "los", "highlight": false },
-      { "text": "clubes", "highlight": true },
-      { "text": "no", "highlight": false },
-      { "text": "apuestan", "highlight": false },
-      { "text": "por", "highlight": false },
-      { "text": "la", "highlight": false },
-      { "text": "suerte,", "highlight": false },
-      { "text": "sino", "highlight": false },
-      { "text": "que", "highlight": false },
-      { "text": "descubren", "highlight": true },
-      { "text": "talentos", "highlight": true },
-      { "text": "con", "highlight": false },
-      { "text": "confianza", "highlight": true },
-      { "text": "y", "highlight": false },
-      { "text": "transparencia.", "highlight": true },
-      { "text": "El", "highlight": false },
-      { "text": "hermoso", "highlight": true },
-      { "text": "juego", "highlight": false },
-      { "text": "no", "highlight": false },
-      { "text": "se", "highlight": false },
-      { "text": "trata", "highlight": false },
-      { "text": "solo", "highlight": false },
-      { "text": "de", "highlight": false },
-      { "text": "ganar", "highlight": false },
-      { "text": "o", "highlight": false },
-      { "text": "perder,", "highlight": false },
-      { "text": "sino", "highlight": false },
-      { "text": "de", "highlight": false },
-      { "text": "comunidad,", "highlight": true },
-      { "text": "pasión", "highlight": true },
-      { "text": "y", "highlight": false },
-      { "text": "recompensas", "highlight": true },
-      { "text": "compartidas.", "highlight": true },
-      { "text": "Stratos", "highlight": true },
-      { "text": "hace", "highlight": false },
-      { "text": "realidad", "highlight": false },
-      { "text": "esta", "highlight": false },
-      { "text": "visión.", "highlight": false }
+      {
+        "text": "De"
+      },
+      {
+        "text": "the"
+      },
+      {
+        "text": "streets",
+        "highlight": "green"
+      },
+      {
+        "text": "of"
+      },
+      {
+        "text": "Lagos",
+        "highlight": "blue"
+      },
+      {
+        "text": "to"
+      },
+      {
+        "text": "the"
+      },
+      {
+        "text": "beaches",
+        "highlight": "green"
+      },
+      {
+        "text": "of"
+      },
+      {
+        "text": "Rio,",
+        "highlight": "blue"
+      },
+      {
+        "text": "de"
+      },
+      {
+        "text": "Tokio",
+        "highlight": "blue"
+      },
+      {
+        "text": "paseos"
+      },
+      {
+        "text": "to"
+      },
+      {
+        "text": "Inglés"
+      },
+      {
+        "text": "patios traseros,",
+        "highlight": "green"
+      },
+      {
+        "text": "fútbol americano"
+      },
+      {
+        "text": "tiene"
+      },
+      {
+        "text": "siempre"
+      },
+      {
+        "text": "estado"
+      },
+      {
+        "text": "más",
+        "highlight": "green"
+      },
+      {
+        "text": "que"
+      },
+      {
+        "text": "a"
+      },
+      {
+        "text": "juego."
+      },
+      {
+        "text": "Él"
+      },
+      {
+        "text": "es"
+      },
+      {
+        "text": "the"
+      },
+      {
+        "text": "del mundo",
+        "highlight": "blue"
+      },
+      {
+        "text": "universal"
+      },
+      {
+        "text": "idioma,",
+        "highlight": "green"
+      },
+      {
+        "text": "trayendo"
+      },
+      {
+        "text": "encima"
+      },
+      {
+        "text": "3.5",
+        "highlight": "blue"
+      },
+      {
+        "text": "mil millones",
+        "highlight": "green"
+      },
+      {
+        "text": "gente"
+      },
+      {
+        "text": "juntos."
+      },
+      {
+        "text": "Pero"
+      },
+      {
+        "text": "detrás"
+      },
+      {
+        "text": "the"
+      },
+      {
+        "text": "pasión,",
+        "highlight": "green"
+      },
+      {
+        "text": "the"
+      },
+      {
+        "text": "sistema",
+        "highlight": "blue"
+      },
+      {
+        "text": "es"
+      },
+      {
+        "text": "roto."
+      }
     ]
   },
   "story": {
-    "title": "La Historia de Stratos",
-    "forPlayers": "Para Jugadores",
-    "forPlayersDesc": "Todo jugador comienza con un sueño, desde campos polvorientos hasta entrenamientos nocturnos, esperando ser visto. Demasiado a menudo, su viaje termina temprano, no por falta de talento, sino por falta de oportunidad.",
-    "forFans": "Para Fanáticos",
-    "forFansDesc": "Todo fanático conoce la sensación, viendo desde las gradas o la pantalla, deseando poder hacer más que aplaudir, gritar y esperar que sus héroes se levanten.",
-    "forClubs": "Para Clubes",
-    "forClubsDesc": "Y cada club, sin importar cuán grande o pequeño sea, está buscando la próxima estrella. Pero en un mundo inundado de ruido, ¿cómo encuentras a los reales?",
-    "conclusion": "Stratos conecta estos mundos. {highlight}",
-    "conclusionHighlight": "Damos a los jugadores el escenario para brillar, a los fanáticos el poder de impulsar futuros y a los clubes la claridad para descubrir la grandeza."
-  },
-  "countdown": {
-    "title": "¡¡¡La Espera Casi Termina!!!",
-    "days": "Días",
-    "hours": "Horas",
-    "minutes": "Minutos",
-    "seconds": "Segundos",
-    "signUp": "Regístrate para Actualizaciones"
+    "title": "El cambio de juego",
+    "subtitle": "Leveling the Playing Field",
+    "description": "Stratos bridges the gap between grassroots and PRO; unlocking access, visibility, and opportunity at a global scale.",
+    "players": {
+      "title": "Para jugadores",
+      "tagline": "Develop. Get discovered. Go PRO.",
+      "body": "Construya su identidad digital, muestre su talento y descubra oportunidades más allá de su presentación local."
+    },
+    "fans": {
+      "title": "Para fanáticos",
+      "tagline": "More than spectators– be part of the journey.",
+      "body": "Apoye el talento en ascenso, participe más profundamente en el juego y dé forma al futuro del fútbol."
+    },
+    "clubs": {
+      "title": "Para clubes",
+      "tagline": "See what others can't. Recruit the best.",
+      "body": "Descubra y explore talentos locales globales con claridad, velocidad y precisión sin fronteras ni limitaciones."
+    },
+    "what": {
+      "title": "What is Stratos?",
+      "subtitle": "Every Part of the Game. Connected.",
+      "description": "Stratos está construyendo un sistema que hace que el descubrimiento de talentos futbolísticos sea global, meritocrático y accesible para cualquier jugador en cualquier lugar.",
+      "card1Title": "Digital identity for players",
+      "card1Body": "Own your profile. Control your journey.",
+      "card2Title": "Intelligent tools (AI + Blockchain)",
+      "card2Body": "Decisiones más inteligentes, interacciones más seguras, mejores resultados.",
+      "card3Title": "Global discovery engine",
+      "card3Body": "Find and be found from anywhere in the world.",
+      "card4Title": "Community-powered ecosystem",
+      "card4Body": "A network of supporters empowering dreams."
+    },
+    "movement": {
+      "title": "The Stratos Movement",
+      "subtitle": "One Global FOOTBALL Ecosystem",
+      "description": "Built across continents. Connected as one ecosystem. Powering the world's biggest game.",
+      "players": "Jugadores",
+      "clubs": "Clubs",
+      "fans": "aficionados",
+      "alternative": "Alternatively: 2,847+ Athletes discovered | 38 Partner clubs and academies | 12 Countries and counting",
+      "regions": "África | América del Sur | Asia | Europa | América del norte"
+    },
+    "waitlist": {
+      "tagline": "Hazte PRO en 2026.",
+      "title": "Join the Waitlist",
+      "playersTitle": "Players: Be First to Go PRO.",
+      "playersBody": "Early access. Exclusive drops. Priority onboarding.",
+      "fansTitle": "Fans: Be First to Support the PRO.",
+      "fansBody": "Apoye el talento en ascenso e interactúe más profundamente con el juego.",
+      "clubsTitle": "Clubes: obtenga acceso a jugadores estrella.",
+      "clubsBody": "Descubra el talento local global con precisión.",
+      "cta": "Join the Waitlist"
+    }
   },
   "footer": {
-    "title": "Mantente a la Vanguardia del Juego",
-    "subtitle": "Obtén actualizaciones exclusivas, acceso anticipado y noticias privilegiadas sobre el futuro del fútbol.",
-    "getStarted": "Comenzar",
-    "copyright": "Copyright © 2025 Stratos. Todos los derechos reservados."
+    "description": "Stratos está construyendo la infraestructura para el fútbol mundial, empezando desde la base.",
+    "social": "Social",
+    "contact": "Contacto",
+    "newsletter": "Hoja informativa",
+    "newsletterValue": "Obtenga actualizaciones de lanzamiento",
+    "copyright": "Copyright © 2025 Straros. Reservados todos los derechos."
   },
   "waitlist": {
-    "title": "Únete a la Lista de Espera",
-    "description": "Sé de los primeros en experimentar el futuro del fútbol.",
-    "firstName": "Nombre",
+    "title": "Join the Waitlist",
+    "description": "Sé uno de los primeros en experimentar el futuro del fútbol.",
+    "firstName": "Nombre completo",
     "lastName": "Apellido",
-    "email": "Correo Electrónico",
-    "category": "Soy un...",
-    "fan": "Fanático",
+    "email": "Dirección de correo electrónico",
+    "category": "soy un...",
+    "fan": "Admirador",
     "player": "Jugador",
     "club": "Club",
-    "submit": "Unirse a la Lista de Espera",
-    "close": "Cerrar"
+    "submit": "Join Waitlist",
+    "close": "Cerca"
   }
 }

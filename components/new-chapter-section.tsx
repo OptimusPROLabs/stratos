@@ -1,9 +1,11 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { useTranslations } from "next-intl"
 
 export function NewChapterSection() {
   const scrollTextRef = useRef<HTMLDivElement>(null)
+  const t = useTranslations("newChapter")
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,58 +43,13 @@ export function NewChapterSection() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const paragraphWords: Array<{ text: string; highlight?: "green" | "blue" }> = [
-    { text: "From" },
-    { text: "the" },
-    { text: "streets", highlight: "green" },
-    { text: "of" },
-    { text: "Lagos", highlight: "blue" },
-    { text: "to" },
-    { text: "the" },
-    { text: "beaches", highlight: "green" },
-    { text: "of" },
-    { text: "Rio,", highlight: "blue" },
-    { text: "from" },
-    { text: "Tokyo", highlight: "blue" },
-    { text: "alleys" },
-    { text: "to" },
-    { text: "English" },
-    { text: "backyards,", highlight: "green" },
-    { text: "football" },
-    { text: "has" },
-    { text: "always" },
-    { text: "been" },
-    { text: "more", highlight: "green" },
-    { text: "than" },
-    { text: "a" },
-    { text: "game." },
-    { text: "It" },
-    { text: "is" },
-    { text: "the" },
-    { text: "world's", highlight: "blue" },
-    { text: "universal" },
-    { text: "language,", highlight: "green" },
-    { text: "bringing" },
-    { text: "over" },
-    { text: "3.5", highlight: "blue" },
-    { text: "billion", highlight: "green" },
-    { text: "people" },
-    { text: "together." },
-    { text: "But" },
-    { text: "behind" },
-    { text: "the" },
-    { text: "passion,", highlight: "green" },
-    { text: "the" },
-    { text: "system", highlight: "blue" },
-    { text: "is" },
-    { text: "broken." },
-  ]
+  const paragraphWords = t.raw("paragraphWords") as Array<{ text: string; highlight?: "green" | "blue" }>
 
   return (
     <section id="about" className="py-12 md:py-20 px-4">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">
-          <span className="text-blue-400 font-display">A New Chapter</span> in Football
+          <span className="text-blue-400 font-display">{t("titlePrefix")}</span> {t("titleSuffix")}
         </h2>
 
         <div ref={scrollTextRef} className="flex items-center">

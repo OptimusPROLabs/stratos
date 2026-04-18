@@ -1,8 +1,10 @@
 "use client"
 
 import { Facebook, Send, Twitter } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 export function FooterSection() {
+  const t = useTranslations("footer")
   return (
     <footer className="relative py-12 md:py-24 px-4 md:px-6 bg-black overflow-hidden">
       {/* Background Image */}
@@ -20,14 +22,14 @@ export function FooterSection() {
         <div className="text-center mb-12 md:mb-16">
           <img src="/stratoslogo.png" alt="Stratos" className="h-10 w-auto mx-auto mb-4" />
           <p className="text-white/70 text-sm md:text-base max-w-3xl mx-auto">
-            Stratos is building the infrastructure for global football, starting from the grassroots.
+            {t("description")}
           </p>
         </div>
 
         {/* Footer Bottom */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 md:pt-12 border-t border-white/10">
           <div>
-            <p className="text-white font-semibold mb-3">Social</p>
+            <p className="text-white font-semibold mb-3">{t("social")}</p>
             <div className="flex items-center gap-4">
               <a href="#" className="text-white/60 hover:text-white transition-colors" aria-label="X (Twitter)">
                 <Twitter className="w-5 h-5" />
@@ -42,20 +44,20 @@ export function FooterSection() {
           </div>
 
           <div>
-            <p className="text-white font-semibold mb-3">Contact</p>
-            <a href="mailto:contact@stratosfootball.com" className="text-white/70 hover:text-white transition-colors">
-            contact@stratosfootball.com
+            <p className="text-white font-semibold mb-3">{t("contact")}</p>
+            <a href="mailto:team@stratosfootball.com" className="text-white/70 hover:text-white transition-colors">
+            team@stratosfootball.com
             </a>
           </div>
 
           <div>
-            <p className="text-white font-semibold mb-3">Newsletter</p>
-            <p className="text-white/70">Get Launch Updates</p>
+            <p className="text-white font-semibold mb-3">{t("newsletter")}</p>
+            <p className="text-white/70">{t("newsletterValue")}</p>
           </div>
         </div>
 
         <div className="pt-8 text-center">
-          <p className="text-white/40 text-xs md:text-sm">Copyright © 2025 Straros. All rights reserved.</p>
+          <p className="text-white/40 text-xs md:text-sm">{t("copyright")}</p>
         </div>
       </div>
     </footer>

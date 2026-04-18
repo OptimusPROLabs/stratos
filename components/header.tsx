@@ -6,10 +6,12 @@ import { LanguageSwitcher } from "./language-switcher"
 import { useState,  useEffect } from "react"
 import { getLocaleFromCookie } from "@/lib/i18n-client"
 import { Menu, X } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [locale, setLocale] = useState<string>("en")
+  const t = useTranslations("header")
 
   useEffect(() => {
     setLocale(getLocaleFromCookie())
@@ -24,16 +26,16 @@ export function Header() {
 
         <nav className="hidden md:flex items-center gap-8">
           <Link href="#story" className="text-white/80 hover:text-white transition-colors text-sm">
-            Story
+            {t("story")}
           </Link>
           <Link href="#why-stratos" className="text-white/80 hover:text-white transition-colors text-sm">
-            Why Stratos
+            {t("whyStratos")}
           </Link>
           <Link href="#about" className="text-white/80 hover:text-white transition-colors text-sm">
-            About
+            {t("about")}
           </Link>
           <Link href="#ecosystem" className="text-white/80 hover:text-white transition-colors text-sm">
-            Ecosystem
+            {t("ecosystem")}
           </Link>
         </nav>
 
@@ -43,7 +45,7 @@ export function Header() {
             <Button
               className="bg-white text-[#001220] hover:bg-white/90 font-medium rounded-3xl text-sm"
             >
-              Join Waitlist
+              {t("joinWaitlist")}
             </Button>
           </Link>
         </div>
@@ -64,28 +66,28 @@ export function Header() {
               className="text-white/80 hover:text-white transition-colors text-lg"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Story
+              {t("story")}
             </Link>
             <Link
               href="#why-stratos"
               className="text-white/80 hover:text-white transition-colors text-lg"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Why Stratos
+              {t("whyStratos")}
             </Link>
             <Link
               href="#about"
               className="text-white/80 hover:text-white transition-colors text-lg"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              About
+              {t("about")}
             </Link>
             <Link
               href="#ecosystem"
               className="text-white/80 hover:text-white transition-colors text-lg"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Ecosystem
+              {t("ecosystem")}
             </Link>
           </nav>
           <div className="flex flex-col gap-3">
@@ -96,7 +98,7 @@ export function Header() {
               <Button
                 className="bg-white text-[#001220] hover:bg-white/90 font-medium rounded-3xl w-full"
               >
-                Join Waitlist
+                {t("joinWaitlist")}
               </Button>
             </Link>
           </div>

@@ -3,52 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@font-face {
-  font-family: "Clash Display";
-  src: url("/WEB/fonts/ClashDisplay-Bold.woff2") format("woff2"), url("/WEB/fonts/ClashDisplay-Bold.woff")
-    format("woff");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Clash Display";
-  src: url("/WEB/fonts/ClashDisplay-Semibold.woff2") format("woff2"), url("/WEB/fonts/ClashDisplay-Semibold.woff")
-    format("woff");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Clash Display";
-  src: url("/WEB/fonts/ClashDisplay-Medium.woff2") format("woff2"), url("/WEB/fonts/ClashDisplay-Medium.woff")
-    format("woff");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Clash Display";
-  src: url("/WEB/fonts/ClashDisplay-Regular.woff2") format("woff2"), url("/WEB/fonts/ClashDisplay-Regular.woff")
-    format("woff");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Clash Display";
-  src: url("/WEB/fonts/ClashDisplay-Light.woff2") format("woff2"), url("/WEB/fonts/ClashDisplay-Light.woff")
-    format("woff");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-
 /* Updated color palette to match Stratos brand guidelines */
 :root {
   --background: #000000;
@@ -86,11 +40,11 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-/* Added Clash Display and Cyberion fonts to theme */
+/* Use available app fonts; avoid broken local font URLs */
 @theme inline {
-  --font-display: "Clash Display", var(--font-geist-sans);
-  --font-clash: "Clash Display", var(--font-geist-sans);
-  --font-cyberion: "Cyberion", var(--font-geist-sans);
+  --font-display: var(--font-geist-sans);
+  --font-clash: var(--font-geist-sans);
+  --font-cyberion: var(--font-geist-sans);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-background: var(--background);

@@ -2,8 +2,10 @@
 
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 
 export function HeroSection() {
+  const t = useTranslations("hero")
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
@@ -19,21 +21,20 @@ export function HeroSection() {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 md:px-6 text-center pt-24 pb-16">
         <h1 className="mb-5 flex flex-col items-center gap-2 sm:gap-3 md:mb-6 md:gap-4 font-[family-name:var(--font-display)] text-[clamp(1.5rem,6.5vw,4.5rem)] font-bold leading-[1.12] tracking-tight sm:text-4xl md:text-6xl lg:text-7xl">
-          <span className="text-primary text-balance">The Pitch is Set</span>
-          <span className="text-balance text-white">The Game is About to Begin</span>
+          <span className="text-primary text-balance">{t("pitchSet")}</span>
+          <span className="text-balance text-white">{t("gameBegins")}</span>
         </h1>
         <p className="mx-auto mb-3 max-w-2xl px-1 text-sm leading-relaxed text-white/80 sm:text-base md:max-w-4xl md:text-lg lg:text-xl">
-          For every player waiting to be seen, every fan ready to belong, and every club searching for the next star,
-          the wait is over. Stratos connects players, fans, and clubs worldwide.
+          {t("subtitle")}
         </p>
         <p className="mb-8 text-xs font-semibold text-primary sm:mb-10 sm:text-sm md:mb-12 md:text-base">
-          Limited Access. Invite Only. Join Now
+          {t("limitedAccess")}
         </p>
 
         {/* Join Waitlist Button */}
         <Link href="/waitlist" className="mx-auto block max-w-sm sm:max-w-md">
           <Button className="h-12 w-full rounded-3xl bg-[#B8FF56] text-base font-semibold text-[#001220] hover:bg-[#B8FF56]/90">
-            Join the Waitlist
+            {t("joinWaitlist")}
           </Button>
         </Link>
       </div>

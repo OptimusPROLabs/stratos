@@ -1,0 +1,242 @@
+{
+  "header": {
+    "story": "Verhaal",
+    "whyStratos": "Waarom Stratos",
+    "about": "Over",
+    "ecosystem": "Ecosysteem",
+    "joinWaitlist": "Sluit je aan bij de wachtlijst"
+  },
+  "hero": {
+    "pitchSet": "De toonhoogte is ingesteld",
+    "gameBegins": "Het spel gaat beginnen",
+    "subtitle": "Voor elke speler die wacht om gezien te worden, elke fan die er klaar voor is om erbij te horen, en elke club die op zoek is naar de volgende ster, is het wachten voorbij. Stratos verbindt spelers, fans en clubs over de hele wereld.",
+    "limitedAccess": "Beperkte toegang. Alleen op uitnodiging. Sluit u nu aan",
+    "joinWaitlist": "Sluit u aan bij de wachtlijst"
+  },
+  "newChapter": {
+    "titlePrefix": "Een nieuw hoofdstuk",
+    "titleSuffix": "bij voetbal",
+    "paragraphWords": [
+      {
+        "text": "Van"
+      },
+      {
+        "text": "de"
+      },
+      {
+        "text": "straten",
+        "highlight": "groente"
+      },
+      {
+        "text": "van"
+      },
+      {
+        "text": "Lagos",
+        "highlight": "blauw"
+      },
+      {
+        "text": "naar"
+      },
+      {
+        "text": "de"
+      },
+      {
+        "text": "stranden",
+        "highlight": "groente"
+      },
+      {
+        "text": "van"
+      },
+      {
+        "text": "Rio,",
+        "highlight": "blauw"
+      },
+      {
+        "text": "van"
+      },
+      {
+        "text": "Tokio",
+        "highlight": "blauw"
+      },
+      {
+        "text": "steegjes"
+      },
+      {
+        "text": "naar"
+      },
+      {
+        "text": "Engels"
+      },
+      {
+        "text": "achtertuinen,",
+        "highlight": "groente"
+      },
+      {
+        "text": "voetbal"
+      },
+      {
+        "text": "heeft"
+      },
+      {
+        "text": "altijd"
+      },
+      {
+        "text": "geweest"
+      },
+      {
+        "text": "meer",
+        "highlight": "groente"
+      },
+      {
+        "text": "dan"
+      },
+      {
+        "text": "A"
+      },
+      {
+        "text": "spel."
+      },
+      {
+        "text": "Het"
+      },
+      {
+        "text": "is"
+      },
+      {
+        "text": "de"
+      },
+      {
+        "text": "wereld",
+        "highlight": "blauw"
+      },
+      {
+        "text": "universeel"
+      },
+      {
+        "text": "taal,",
+        "highlight": "groente"
+      },
+      {
+        "text": "brengen"
+      },
+      {
+        "text": "over"
+      },
+      {
+        "text": "3.5",
+        "highlight": "blauw"
+      },
+      {
+        "text": "miljard",
+        "highlight": "groente"
+      },
+      {
+        "text": "mensen"
+      },
+      {
+        "text": "samen."
+      },
+      {
+        "text": "Maar"
+      },
+      {
+        "text": "achter"
+      },
+      {
+        "text": "de"
+      },
+      {
+        "text": "passie,",
+        "highlight": "groente"
+      },
+      {
+        "text": "de"
+      },
+      {
+        "text": "systeem",
+        "highlight": "blauw"
+      },
+      {
+        "text": "is"
+      },
+      {
+        "text": "gebroken."
+      }
+    ]
+  },
+  "story": {
+    "title": "De Gamechanger",
+    "subtitle": "Het gelijkmaken van het speelveld",
+    "description": "Stratos overbrugt de kloof tussen de basis en PRO; het ontsluiten van toegang, zichtbaarheid en kansen op mondiale schaal.",
+    "players": {
+      "title": "Voor spelers",
+      "tagline": "Ontwikkelen. Laat je ontdekken. Ga PRO.",
+      "body": "Bouw uw digitale identiteit op, laat uw talent zien en ontgrendel kansen buiten uw lokale pitch."
+    },
+    "fans": {
+      "title": "Voor fans",
+      "tagline": "Meer dan toeschouwers: maak deel uit van de reis.",
+      "body": "Ondersteun opkomend talent, ga dieper in op het spel en geef vorm aan de toekomst van voetbal."
+    },
+    "clubs": {
+      "title": "Voor Clubs",
+      "tagline": "Kijk wat anderen niet kunnen. Rekruteer de beste.",
+      "body": "Ontdek en scout internationaal basistalent met duidelijkheid, snelheid en precisie zonder grenzen of beperkingen."
+    },
+    "what": {
+      "title": "Wat is Stratos?",
+      "subtitle": "Elk deel van het spel. Aangesloten.",
+      "description": "Stratos bouwt aan een systeem dat de ontdekking van voetbaltalent mondiaal, meritocratisch en toegankelijk maakt voor elke speler waar dan ook.",
+      "card1Title": "Digitale identiteit voor spelers",
+      "card1Body": "Eigenaar van uw profiel. Controle over uw reis.",
+      "card2Title": "Intelligente tools (AI + Blockchain)",
+      "card2Body": "Slimmere beslissingen, veiligere interacties, betere resultaten.",
+      "card3Title": "Wereldwijde ontdekkingsmotor",
+      "card3Body": "Vind en word gevonden, waar ook ter wereld.",
+      "card4Title": "Door de gemeenschap aangedreven ecosysteem",
+      "card4Body": "Een netwerk van supporters die dromen versterken."
+    },
+    "movement": {
+      "title": "De Stratos-beweging",
+      "subtitle": "Eén mondiaal voetbal-ecosysteem",
+      "description": "Gebouwd over continenten heen. Verbonden als één ecosysteem. De kracht van 's werelds grootste game.",
+      "players": "Spelers",
+      "clubs": "Clubs",
+      "fans": "Fans",
+      "alternative": "Alternatief: 2.847+ atleten ontdekt | 38 Partnerclubs en academies | 12 landen en er komen er meer bij",
+      "regions": "Afrika | Zuid-Amerika | Azië | Europa | Noord-Amerika"
+    },
+    "waitlist": {
+      "tagline": "Ga PRO in 2026.",
+      "title": "Sluit u aan bij de wachtlijst",
+      "playersTitle": "Spelers: Wees de eerste die PRO gaat.",
+      "playersBody": "Vroege toegang. Exclusieve druppels. Onboarding met prioriteit.",
+      "fansTitle": "Fans: wees de eerste die de PRO steunt.",
+      "fansBody": "Ondersteun opkomend talent en ga dieper in op het spel.",
+      "clubsTitle": "Clubs: krijg toegang tot sterspelers.",
+      "clubsBody": "Ontdek internationaal basistalent met precisie.",
+      "cta": "Sluit u aan bij de wachtlijst"
+    }
+  },
+  "footer": {
+    "description": "Stratos bouwt aan de infrastructuur voor het mondiale voetbal, beginnend bij de basis.",
+    "social": "Sociaal",
+    "contact": "Contact",
+    "newsletter": "Nieuwsbrief",
+    "newsletterValue": "Ontvang lanceringsupdates",
+    "copyright": "Copyright © 2025 Straros. Alle rechten voorbehouden."
+  },
+  "waitlist": {
+    "title": "Sluit u aan bij de wachtlijst",
+    "description": "Wees een van de eersten die de toekomst van voetbal ervaart.",
+    "firstName": "Volledige naam",
+    "lastName": "Achternaam",
+    "email": "E-mailadres",
+    "category": "ik ben een...",
+    "fan": "Fan",
+    "player": "Speler",
+    "club": "Club",
+    "submit": "Sluit je aan bij de wachtlijst",
+    "close": "Dichtbij"
+  }
+}

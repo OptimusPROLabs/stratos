@@ -1,0 +1,242 @@
+{
+  "header": {
+    "story": "Cerita",
+    "whyStratos": "Mengapa Stratos",
+    "about": "Tentang",
+    "ecosystem": "Ekosistem",
+    "joinWaitlist": "Bergabunglah dengan Daftar Tunggu"
+  },
+  "hero": {
+    "pitchSet": "Pitch sudah diatur",
+    "gameBegins": "Permainan akan segera dimulai",
+    "subtitle": "Untuk setiap pemain yang menunggu untuk dilihat, setiap penggemar yang siap menjadi bagiannya, dan setiap klub yang mencari bintang berikutnya, penantiannya telah berakhir. Stratos menghubungkan pemain, penggemar, dan klub di seluruh dunia.",
+    "limitedAccess": "Akses Terbatas. Hanya Undangan. Bergabunglah Sekarang",
+    "joinWaitlist": "Bergabunglah dengan Daftar Tunggu"
+  },
+  "newChapter": {
+    "titlePrefix": "Babak Baru",
+    "titleSuffix": "di Sepak Bola",
+    "paragraphWords": [
+      {
+        "text": "Dari"
+      },
+      {
+        "text": "itu"
+      },
+      {
+        "text": "jalanan",
+        "highlight": "hijau"
+      },
+      {
+        "text": "dari"
+      },
+      {
+        "text": "Lagos",
+        "highlight": "biru"
+      },
+      {
+        "text": "ke"
+      },
+      {
+        "text": "itu"
+      },
+      {
+        "text": "pantai",
+        "highlight": "hijau"
+      },
+      {
+        "text": "dari"
+      },
+      {
+        "text": "Rio,",
+        "highlight": "biru"
+      },
+      {
+        "text": "dari"
+      },
+      {
+        "text": "Tokyo",
+        "highlight": "biru"
+      },
+      {
+        "text": "gang"
+      },
+      {
+        "text": "ke"
+      },
+      {
+        "text": "Bahasa inggris"
+      },
+      {
+        "text": "halaman belakang,",
+        "highlight": "hijau"
+      },
+      {
+        "text": "sepak bola"
+      },
+      {
+        "text": "memiliki"
+      },
+      {
+        "text": "selalu"
+      },
+      {
+        "text": "pernah"
+      },
+      {
+        "text": "lagi",
+        "highlight": "hijau"
+      },
+      {
+        "text": "dibandingkan"
+      },
+      {
+        "text": "A"
+      },
+      {
+        "text": "permainan."
+      },
+      {
+        "text": "Dia"
+      },
+      {
+        "text": "adalah"
+      },
+      {
+        "text": "itu"
+      },
+      {
+        "text": "dunia",
+        "highlight": "biru"
+      },
+      {
+        "text": "universal"
+      },
+      {
+        "text": "bahasa,",
+        "highlight": "hijau"
+      },
+      {
+        "text": "bringing"
+      },
+      {
+        "text": "lebih"
+      },
+      {
+        "text": "3.5",
+        "highlight": "biru"
+      },
+      {
+        "text": "miliar",
+        "highlight": "hijau"
+      },
+      {
+        "text": "rakyat"
+      },
+      {
+        "text": "bersama."
+      },
+      {
+        "text": "Tetapi"
+      },
+      {
+        "text": "di belakang"
+      },
+      {
+        "text": "itu"
+      },
+      {
+        "text": "gairah,",
+        "highlight": "hijau"
+      },
+      {
+        "text": "itu"
+      },
+      {
+        "text": "sistem",
+        "highlight": "biru"
+      },
+      {
+        "text": "adalah"
+      },
+      {
+        "text": "rusak."
+      }
+    ]
+  },
+  "story": {
+    "title": "Pengubah Permainan",
+    "subtitle": "Meratakan Lapangan Bermain",
+    "description": "Stratos menjembatani kesenjangan antara akar rumput dan PRO; membuka akses, visibilitas, dan peluang pada skala global.",
+    "players": {
+      "title": "Untuk Pemain",
+      "tagline": "Develop. Get discovered. Go PRO.",
+      "body": "Build your digital identity, showcase your talent, and unlock opportunities beyond your local pitch."
+    },
+    "fans": {
+      "title": "Untuk Penggemar",
+      "tagline": "Lebih dari sekadar penonton– jadilah bagian dari perjalanan.",
+      "body": "Dukung bakat-bakat yang sedang berkembang, libatkan lebih dalam permainan ini, dan bentuk masa depan sepakbola."
+    },
+    "clubs": {
+      "title": "Untuk Klub",
+      "tagline": "See what others can't. Recruit the best.",
+      "body": "Temukan dan pantau talenta akar rumput global dengan jelas, cepat, dan presisi tanpa batas atau batasan."
+    },
+    "what": {
+      "title": "Apa itu Stratos?",
+      "subtitle": "Setiap Bagian dari Game. Terhubung.",
+      "description": "Stratos sedang membangun sistem yang menjadikan penemuan bakat sepak bola bersifat global, meritokratis, dan dapat diakses oleh pemain mana pun di mana pun.",
+      "card1Title": "Identitas digital untuk pemain",
+      "card1Body": "Miliki profil Anda. Kontrol perjalanan Anda.",
+      "card2Title": "Alat cerdas (AI + Blockchain)",
+      "card2Body": "Keputusan yang lebih cerdas, interaksi yang lebih aman, hasil yang lebih baik.",
+      "card3Title": "Mesin penemuan global",
+      "card3Body": "Temukan dan temukan dari mana saja di dunia.",
+      "card4Title": "Ekosistem yang diberdayakan oleh komunitas",
+      "card4Body": "Jaringan pendukung yang memberdayakan mimpi."
+    },
+    "movement": {
+      "title": "Gerakan Stratos",
+      "subtitle": "Satu Ekosistem SEPAKBOLA Global",
+      "description": "Dibangun melintasi benua. Terhubung sebagai satu ekosistem. Mendukung game terbesar di dunia.",
+      "players": "Pemain",
+      "clubs": "Klub",
+      "fans": "Penggemar",
+      "alternative": "Alternatifnya: 2.847+ Atlet ditemukan | 38 Klub dan akademi mitra | 12 Negara dan terus bertambah",
+      "regions": "Afrika | Amerika Selatan | Asia | Eropa | Amerika Utara"
+    },
+    "waitlist": {
+      "tagline": "Menjadi PRO pada tahun 2026.",
+      "title": "Bergabunglah dengan Daftar Tunggu",
+      "playersTitle": "Pemain: Jadilah Yang Pertama Menjadi PRO.",
+      "playersBody": "Akses awal. Tetesan eksklusif. Orientasi prioritas.",
+      "fansTitle": "Fans: Jadilah Yang Pertama Mendukung PRO.",
+      "fansBody": "Dukung talenta yang sedang naik daun dan libatkan lebih dalam game ini.",
+      "clubsTitle": "Klub: Dapatkan Akses ke Pemain Bintang.",
+      "clubsBody": "Temukan talenta akar rumput global dengan tepat.",
+      "cta": "Bergabunglah dengan Daftar Tunggu"
+    }
+  },
+  "footer": {
+    "description": "Stratos sedang membangun infrastruktur untuk sepak bola global, dimulai dari akar rumput.",
+    "social": "Sosial",
+    "contact": "Kontak",
+    "newsletter": "Buletin",
+    "newsletterValue": "Dapatkan Pembaruan Peluncuran",
+    "copyright": "Hak Cipta © 2025 Straros. Semua hak dilindungi undang-undang."
+  },
+  "waitlist": {
+    "title": "Bergabunglah dengan Daftar Tunggu",
+    "description": "Jadilah orang pertama yang merasakan masa depan sepakbola.",
+    "firstName": "Nama Lengkap",
+    "lastName": "Nama Belakang",
+    "email": "Alamat Surel",
+    "category": "saya seorang...",
+    "fan": "Penggemar",
+    "player": "Pemain",
+    "club": "Klub",
+    "submit": "Bergabunglah dengan Daftar Tunggu",
+    "close": "Menutup"
+  }
+}
