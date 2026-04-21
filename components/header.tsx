@@ -37,9 +37,6 @@ export function Header() {
           <Link href="#ecosystem" className="text-white/80 hover:text-white transition-colors text-sm">
             {t("ecosystem")}
           </Link>
-          <Link href="#pricing" className="text-white/80 hover:text-white transition-colors text-sm">
-            Pricing
-          </Link>
         </nav>
 
         <div className="hidden md:flex items-center gap-2">
@@ -91,13 +88,6 @@ export function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t("ecosystem")}
-            </Link>
-            <Link
-              href="#pricing"
-              className="text-white/80 hover:text-white transition-colors text-lg"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Pricing
             </Link>
           </nav>
           <div className="flex flex-col gap-3">
