@@ -31,13 +31,31 @@ export function FooterSection() {
           <div>
             <p className="text-white font-semibold mb-3">{t("social")}</p>
             <div className="flex items-center gap-4">
-              <a href="#" className="text-white/60 hover:text-white transition-colors" aria-label="X (Twitter)">
+              <a
+                href="https://x.com/StratosF00tball"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-white transition-colors"
+                aria-label="X (Twitter)"
+              >
                 <Twitter className="w-5 h-5" />
               </a>
-              <a href="#" className="text-white/60 hover:text-white transition-colors" aria-label="Facebook">
+              <a
+                href="https://www.facebook.com/share/1DSgRknkoG/?mibextid=wwXIfr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-white transition-colors"
+                aria-label="Facebook"
+              >
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="text-white/60 hover:text-white transition-colors" aria-label="Telegram">
+              <a
+                href="https://t.me/+9EoWlO2Z62o2Nzk8"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-white transition-colors"
+                aria-label="Telegram"
+              >
                 <Send className="w-5 h-5" />
               </a>
             </div>
