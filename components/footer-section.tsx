@@ -50,7 +50,7 @@ export function FooterSection() {
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href="https://t.me/+9EoWlO2Z62o2Nzk8"
+                href="https://t.me/stratos_football"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/60 hover:text-white transition-colors"
