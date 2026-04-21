@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ArrowRight, Check, User, Users, Search, Award, Activity, Brain, Dumbbell, HeartPulse, PenTool, ChevronDown, ChevronUp, Plus, X } from "lucide-react"
+import { ArrowRight, Check, User, Users, Search, Award, Activity, Brain, Dumbbell, HeartPulse, PenTool, ChevronDown, ChevronUp, Plus, X, Facebook, Send, Twitter, Linkedin } from "lucide-react"
 
 type Step = 0 | 1 | 2 | 3 | 4 | 5
 type Role = "player" | "fan" | "club" | "agent" | "scout" | "coach" | "analyst" | "psychologist" | "trainer" | "physio" | "media"
@@ -742,8 +742,47 @@ export default function WaitlistClient() {
               You have been added to our waitlist.
             </p>
             <p className="mt-3 text-sm text-[#b8ff56]">
-              Welcome to the Stratos movement.
+            Kindly follow us on social media 
             </p>
+           
+            <div className="mt-4 flex items-center justify-center gap-4">
+              <a
+                href="https://www.facebook.com/share/1DSgRknkoG/?mibextid=wwXIfr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/70 hover:text-white transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a
+                href="https://x.com/StratosF00tball"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/70 hover:text-white transition-colors"
+                aria-label="X (Twitter)"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a
+                href="https://t.me/stratos_football"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/70 hover:text-white transition-colors"
+                aria-label="Telegram"
+              >
+                <Send className="w-5 h-5" />
+              </a>
+              <a
+                href="https://www.linkedin.com/showcase/stratos-football/posts/?feedView=all"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/70 hover:text-white transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+            </div>
           </div>
         ) : null}
 
