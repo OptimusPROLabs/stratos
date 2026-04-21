@@ -5,7 +5,6 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Check, User, Users, Search, Award, Activity, Brain, Dumbbell, HeartPulse, PenTool, ChevronDown, ChevronUp, Plus, X } from "lucide-react"
-import { StratosPlayerCard } from "@/components/stratos-player-card"
 
 type Step = 0 | 1 | 2 | 3 | 4 | 5
 type Role = "player" | "fan" | "club" | "agent" | "scout" | "coach" | "analyst" | "psychologist" | "trainer" | "physio" | "media"
@@ -62,7 +61,7 @@ const countries = [
 const roleQuestions: Record<Role, Question> = {
   player: {
     text: "What level do you currently play at?",
-    options: ["Amateur", "Semi-PRO", "Professional", "Academy"]
+    options: ["Grassroot", "Academy", "Semi-pro", "Professional"]
   },
   fan: {
     text: "Which region's football do you follow most?",
@@ -192,23 +191,15 @@ const roleHeadlines: Record<Role, string> = {
 }
 
 const mainWaitlistRoles: Role[] = ["player", "fan", "club"]
-const othersPickRoles: Array<"coach" | "scout" | "agent"> = ["coach", "scout", "agent"]
-
-const forRoleLabel: Record<(typeof mainWaitlistRoles)[number], string> = {
+const forRoleLabel: Partial<Record<Role, string>> = {
   player: "For Players:",
   fan: "For Fans:",
   club: "For Clubs:",
 }
 
-function isOthersRole(role: Role | null): role is "coach" | "scout" | "agent" {
-  return role === "coach" || role === "scout" || role === "agent"
-}
-
 export default function WaitlistClient() {
   const [step, setStep] = useState<Step>(0)
   const [selectedRole, setSelectedRole] = useState<Role | null>(null)
-  /** Single "Others" tile: when true, show Coach / Scout / Agent picker */
-  const [othersOpen, setOthersOpen] = useState(false)
   const [email, setEmail] = useState("")
   const [name, setName] = useState("")
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
@@ -219,12 +210,6 @@ export default function WaitlistClient() {
   const [countrySearch, setCountrySearch] = useState("")
   const [players, setPlayers] = useState<Player[]>([{ id: 1, name: "", email: "" }])
   const [hasInitialSubmit, setHasInitialSubmit] = useState(false)
-
-  useEffect(() => {
-    if (step === 1 && isOthersRole(selectedRole)) {
-      setOthersOpen(true)
-    }
-  }, [step, selectedRole])
 
   const getFilteredCountries = () => {
     if (!countrySearch) return countries
@@ -422,7 +407,6 @@ export default function WaitlistClient() {
                   type="button"
                   onClick={() => {
                     setSelectedRole(role)
-                    setOthersOpen(false)
                   }}
                   className={`relative p-3 sm:p-4 md:p-6 text-left border-2 transition-all duration-200 ${
                     selectedRole === role
@@ -449,58 +433,25 @@ export default function WaitlistClient() {
               <button
                 type="button"
                 onClick={() => {
-                  setOthersOpen(true)
-                  if (selectedRole && !isOthersRole(selectedRole)) {
-                    setSelectedRole(null)
-                  }
+                  setSelectedRole("agent")
                 }}
                 className={`relative w-full border-2 p-4 text-left transition-all duration-300 sm:p-6 ${
-                  othersOpen || isOthersRole(selectedRole)
+                  selectedRole === "agent"
                     ? "border-[#008efa] bg-[#0a1520]"
                     : "border-[#1a2332] hover:border-[#008efa]/50 hover:bg-[#0a0f14]"
                 }`}
               >
-                {(othersOpen || isOthersRole(selectedRole)) && (
+                {selectedRole === "agent" && (
                   <div className="absolute right-3 top-3 sm:right-4 sm:top-4">
                     <Check className="h-4 w-4 text-[#008efa] sm:h-5 sm:w-5" />
                   </div>
                 )}
-                <p className="mb-2 text-sm font-semibold text-[#008efa]">For Coaches / Scouts / Agents:</p>
-                <p className="mb-3 text-lg font-bold text-white sm:text-xl">Coaches, Scouts &amp; Agents</p>
-                <p className="max-w-2xl text-sm text-[#8899aa]">{talentNetworkHook}</p>
+                <p className="mb-2 text-sm font-semibold text-[#008efa]">For Others:</p>
+                <p className="mb-3 text-lg font-bold text-white sm:text-xl">Others</p>
+                <p className="max-w-2xl text-sm text-[#8899aa]">
+                  Coaches, scouts, and agents helping discover and develop talent.
+                </p>
               </button>
-
-              <div
-                className={`grid transition-[grid-template-rows] duration-300 ease-out ${
-                  othersOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-                }`}
-              >
-                <div className="min-h-0 overflow-hidden">
-                  <div
-                    className={`space-y-4 border border-t-0 border-[#1a2332] bg-[#050a10] p-4 transition-opacity duration-300 sm:p-5 ${
-                      othersOpen ? "opacity-100" : "pointer-events-none opacity-0"
-                    }`}
-                  >
-                    <p className="text-center text-sm text-[#8899aa]">Choose your role to continue</p>
-                    <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
-                      {othersPickRoles.map((role) => (
-                        <button
-                          key={role}
-                          type="button"
-                          onClick={() => setSelectedRole(role)}
-                          className={`min-w-[100px] border-2 px-4 py-3 text-sm font-semibold transition-all duration-200 sm:min-w-[120px] sm:px-6 sm:text-base ${
-                            selectedRole === role
-                              ? "border-[#b8ff56] bg-[#0d1a0d] text-white"
-                              : "border-[#1a2332] text-[#8899aa] hover:border-[#b8ff56]/50 hover:bg-[#0a0f14] hover:text-white"
-                          }`}
-                        >
-                          {roles[role].label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {selectedRole && (
@@ -778,15 +729,21 @@ export default function WaitlistClient() {
           </div>
         )}
 
-        {/* Step 4 or 5: Post-Submit - EPIC STRATOS PLAYER CARD (USING NEW COMPONENT) */}
+        {/* Step 4 or 5: Post-Submit confirmation */}
         {(step === 4 && selectedRole !== 'club') || (step === 5 && selectedRole === 'club') ? (
-          <div className="min-h-screen flex items-center justify-center px-4 py-8">
-            <StratosPlayerCard
-              waitlistNumber={waitlistNumber}
-              selectedRole={selectedRole}
-              name={name}
-              roles={roles}
-            />
+          <div className="w-full max-w-2xl mx-auto text-center px-4 py-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="mb-4 text-2xl animate-bounce" aria-hidden="true">
+              🎉
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
+              Congratulations!
+            </h2>
+            <p className="text-base sm:text-lg text-white/80">
+              You have been added to our waitlist.
+            </p>
+            <p className="mt-3 text-sm text-[#b8ff56]">
+              Welcome to the Stratos movement.
+            </p>
           </div>
         ) : null}
 

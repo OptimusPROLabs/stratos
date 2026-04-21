@@ -99,30 +99,32 @@ export function StorySection() {
           <p className="text-center text-white/75 max-w-4xl mx-auto mb-12">
             {t("movement.description")}
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 text-center mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 text-center mb-8">
             <div className="rounded-2xl border border-white/15 bg-white/5 p-6">
-              <p className="text-3xl font-bold text-white">2,847+</p>
+              <p className="text-3xl font-bold text-white">2847+</p>
               <p className="text-primary mt-1">{t("movement.players")}</p>
             </div>
             <div className="rounded-2xl border border-white/15 bg-white/5 p-6">
-              <p className="text-3xl font-bold text-white">15</p>
+              <p className="text-3xl font-bold text-white">38</p>
               <p className="text-primary mt-1">{t("movement.clubs")}</p>
             </div>
             <div className="rounded-2xl border border-white/15 bg-white/5 p-6">
-              <p className="text-3xl font-bold text-white">524+</p>
+              <p className="text-3xl font-bold text-white">13</p>
+              <p className="text-primary mt-1">Agents / Scouts</p>
+            </div>
+            <div className="rounded-2xl border border-white/15 bg-white/5 p-6">
+              <p className="text-3xl font-bold text-white">5792</p>
               <p className="text-primary mt-1">{t("movement.fans")}</p>
             </div>
           </div>
-          <p className="text-center text-white/70 text-sm md:text-base">
-            {t("movement.alternative")}
-          </p>
+          
           <p className="text-center text-white/60 text-sm mt-4">
             {t("movement.regions")}
           </p>
         </div>
 
         <div className="mt-16 md:mt-24 rounded-3xl border border-primary/30 bg-gradient-to-b from-primary/10 to-transparent p-6 md:p-10 text-center">
-          <p className="text-white/80 text-sm mb-2">{t("waitlist.tagline")}</p>
+          <p className="mb-3 text-2xl md:text-3xl font-bold tracking-tight text-white">{t("waitlist.tagline")}</p>
           <h3 className="text-2xl md:text-4xl font-bold text-white mb-8">{t("waitlist.title")}</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left mb-8">
             <div className="rounded-2xl bg-black/60 border border-white/10 p-4">

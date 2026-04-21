@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { locales, localeNames, type Locale } from "@/i18n/config"
@@ -9,6 +8,16 @@ import { useRouter } from "next/navigation"
 
 interface LanguageSwitcherProps {
   currentLocale: Locale
+}
+
+const localeFlags: Record<Locale, string> = {
+  en: "🇺🇸",
+  es: "🇪🇸",
+  pt: "🇧🇷",
+  fr: "🇫🇷",
+  de: "🇩🇪",
+  nl: "🇳🇱",
+  id: "🇮🇩",
 }
 
 export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
@@ -34,7 +43,9 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
           className="text-white/80 hover:text-white hover:bg-white/10"
           disabled={isChanging}
         >
-          <Globe className="h-5 w-5" />
+          <span className="text-base leading-none" aria-hidden="true">
+            {localeFlags[currentLocale]}
+          </span>
           <span className="sr-only">Change language</span>
         </Button>
       </DropdownMenuTrigger>
