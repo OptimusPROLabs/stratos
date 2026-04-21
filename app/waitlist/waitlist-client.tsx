@@ -62,7 +62,7 @@ const countries = [
 const roleQuestions: Record<Role, Question> = {
   player: {
     text: "What level do you currently play at?",
-    options: ["Amateur", "Semi-Pro", "Professional", "Academy"]
+    options: ["Amateur", "Semi-PRO", "Professional", "Academy"]
   },
   fan: {
     text: "Which region's football do you follow most?",
@@ -82,7 +82,7 @@ const roleQuestions: Record<Role, Question> = {
   },
   coach: {
     text: "What level do you currently coach?",
-    options: ["Youth", "Amateur", "Semi-Pro", "Professional"]
+    options: ["Youth", "Amateur", "Semi-PRO", "Professional"]
   },
   analyst: {
     text: "What's your primary specialization?",

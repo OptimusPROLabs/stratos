@@ -27,7 +27,7 @@ export function FooterSection() {
         </div>
 
         {/* Footer Bottom */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 md:pt-12 border-t border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 md:pt-12 border-t border-white/10">
           <div>
             <p className="text-white font-semibold mb-3">{t("social")}</p>
             <div className="flex items-center gap-4">
@@ -68,10 +68,6 @@ export function FooterSection() {
             </a>
           </div>
 
-          <div>
-            <p className="text-white font-semibold mb-3">{t("newsletter")}</p>
-            <p className="text-white/70">{t("newsletterValue")}</p>
-          </div>
         </div>
 
         <div className="pt-8 text-center">
