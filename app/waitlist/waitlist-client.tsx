@@ -564,14 +564,19 @@ export default function WaitlistClient() {
                           : 'border-[#1a2332] hover:border-[#008efa]/50 hover:bg-[#0a0f14] text-[#8899aa]'
                       }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="text-base sm:text-lg md:text-xl font-medium">
-                          Search specific country...
-                        </span>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+                          <span className="shrink-0 text-base sm:text-lg" aria-hidden="true">
+                            🚩
+                          </span>
+                          <span className="truncate text-base sm:text-lg md:text-xl font-medium">
+                            Search specific country...
+                          </span>
+                        </div>
                         {showCountrySearch ? (
-                          <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5" />
+                          <ChevronUp className="w-4 h-4 shrink-0 sm:w-5 sm:h-5" />
                         ) : (
-                          <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
+                          <ChevronDown className="w-4 h-4 shrink-0 sm:w-5 sm:h-5" />
                         )}
                       </div>
                     </button>
